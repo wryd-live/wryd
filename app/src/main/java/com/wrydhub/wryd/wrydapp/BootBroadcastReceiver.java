@@ -36,8 +36,8 @@ public class BootBroadcastReceiver extends BroadcastReceiver {
 
     private String[] autocompleteLocations = new String[] {"bedroom","living room","kitchen","bathroom", "office"};
 
-    String familyName = "dixit";
-    String serverAddress = "https://cloud.internalpositioning.com";
+    String familyName = "iiitdharwad";
+    String serverAddress = "https://wryd.live";
     String deviceName  = "note8pro";
     String locationName = "";
 

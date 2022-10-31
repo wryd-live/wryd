@@ -60,8 +60,8 @@ public class MainActivity extends AppCompatActivity {
 
     private String[] autocompleteLocations = new String[] {"bedroom","living room","kitchen","bathroom", "office"};
 
-    String familyName = "dixit";
-    String serverAddress = "https://cloud.internalpositioning.com";
+    String familyName = "iiitdharwad";
+    String serverAddress = "https://wryd.live";
     String deviceName  = "note8pro";
     String locationName = "";
 
@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
 
             deviceName = savedUsername;
             SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putString("familyName", "dixit");
+            editor.putString("familyName", "iiitdharwad");
             editor.putString("deviceName", savedUsername);
             editor.putString("serverAddress", "");
 //                    editor.putString("locationName", locationName);
@@ -295,7 +295,7 @@ public class MainActivity extends AppCompatActivity {
     void fetchAndUpdateData()
     {
         OkHttpClient client = new OkHttpClient();
-        String url = "https://cloud.internalpositioning.com/api/v1/locations/dixit";
+        String url = "https://wryd.live/api/v1/locations/iiitdharwad";
         Request request = new Request.Builder()
                 .url(url)
                 .build();
