@@ -325,12 +325,13 @@ public class MainActivity extends AppCompatActivity {
                             JSONObject dev = deviceData.getJSONObject(i);
                             String devName = dev.getString("device");
 
+                            JSONObject sens = dev.getJSONObject("sensors");
+                            String sensTime = sens.getString("t");
 
                             JSONObject pred = dev.getJSONObject("prediction");
                             String loc = pred.getString("location");
                             String probab = pred.getString("probability");
-                            String tm = "7:34 pm";
-
+                            String tm = sensTime;
                             User us = new User(devName,loc,tm,"9412247044","India",R.drawable.facebook_avatar);
                             userArrayList.add(us);
                         }
