@@ -11,6 +11,8 @@ import android.widget.TextView;
 //import androidx.annotation.NonNull;
 //import androidx.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 public class ListAdapter extends ArrayAdapter<User> {
@@ -39,6 +41,12 @@ public class ListAdapter extends ArrayAdapter<User> {
         TextView time = (TextView) convertView.findViewById(R.id.msgtime);
 
         imageView.setImageResource(user.imageId);
+
+        Glide
+                .with(convertView)
+                .load(user.imageUrl)
+                .into(imageView);
+
         userName.setText(user.name);
         lastMsg.setText(user.lastMessage);
         time.setText(user.lastMsgTime);
