@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 24
+    compileSdkVersion 28
     defaultConfig {
         applicationId "com.wrydhub.wryd.wrydapp"
         minSdkVersion 23
-        targetSdkVersion 24
+        targetSdkVersion 28
         versionCode 6
         versionName "3.0.3"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
     buildTypes {
         release {
@@ -20,8 +20,8 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:24.1.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 //    testImplementation 'junit:junit:4.12'
 //    androidTestImplementation 'com.android.support.test:runner:1.0.1'
 //    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
@@ -29,4 +29,5 @@ dependencies {
     implementation "org.java-websocket:Java-WebSocket:1.3.7"
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation("com.squareup.okhttp3:okhttp:3.9.1")
+    implementation 'com.android.support:drawerlayout:28.0.0'
 }
