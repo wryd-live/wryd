@@ -42,7 +42,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 
-import com.wrydhub.wryd.utils.lastSeen;
+import com.wrydhub.wryd.wrydapp.utils.lastSeen;
 
 
 public class MainActivity extends AppCompatActivity {

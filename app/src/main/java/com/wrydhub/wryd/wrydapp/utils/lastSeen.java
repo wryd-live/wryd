@@ -1,4 +1,4 @@
-package com.wrydhub.wryd.utils;
+package com.wrydhub.wryd.wrydapp.utils;
 
 public class lastSeen {
 //    public static void main(String[] args) throws Exception {
