@@ -41,6 +41,10 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+
+import com.wrydhub.wryd.utils.lastSeen;
+
+
 public class MainActivity extends AppCompatActivity {
 
     // logging
@@ -331,8 +335,8 @@ public class MainActivity extends AppCompatActivity {
                             JSONObject pred = dev.getJSONObject("prediction");
                             String loc = pred.getString("location");
                             String probab = pred.getString("probability");
-                            String tm = sensTime;
-                            User us = new User(devName,loc,tm,"9412247044","India",R.drawable.facebook_avatar);
+                            String lst_seen = lastSeen.func(sensTime);
+                            User us = new User(devName,loc,lst_seen,"9412247044","India",R.drawable.facebook_avatar);
                             userArrayList.add(us);
                         }
 
