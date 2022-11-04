@@ -15,6 +15,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import android.os.Bundle;
 import androidx.core.app.NotificationCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -42,6 +46,11 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 
+import com.wrydhub.wryd.wrydapp.databinding.ActivityMainBinding;
+import com.wrydhub.wryd.wrydapp.ui.home;
+import com.wrydhub.wryd.wrydapp.ui.notification;
+import com.wrydhub.wryd.wrydapp.ui.profile;
+import com.wrydhub.wryd.wrydapp.ui.search;
 import com.wrydhub.wryd.wrydapp.utils.lastSeen;
 
 
@@ -107,10 +116,38 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    ActivityMainBinding binding;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        replaceFragment(new home());
+
+        binding.bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+
+            switch (item.getItemId()){
+                case R.id.home_menu:
+                    replaceFragment(new home());
+                    break;
+                case R.id.notification_menu:
+                    replaceFragment(new notification());
+                    break;
+                case R.id.search_menu:
+                    replaceFragment(new search());
+                    break;
+                case R.id.profile_menu:
+                    replaceFragment(new profile());
+                    break;
+            }
+            return true;
+        });
+
+
+//        setContentView(R.layout.activity_main);
 
         // check permissions
         int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
@@ -199,100 +236,100 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-        int[] imageId = {R.drawable.facebook_avatar,
-                R.drawable.facebook_avatar,
-                R.drawable.facebook_avatar,
-                R.drawable.facebook_avatar,
-                R.drawable.facebook_avatar,
-                R.drawable.facebook_avatar,
-                R.drawable.facebook_avatar,
-                R.drawable.facebook_avatar,
-                R.drawable.facebook_avatar};
-
-        String[] name = {"Christopher","Craig","Sergio","Mubariz","Mike","Michael","Toa","Ivana","Alex"};
-        String[] lastMessage = {"Heye","Supp","Let's Catchup","Dinner tonight?","Gotta go",
-                "i'm in meeting","Gotcha","Let's Go","any Weekend Plans?"};
-        String[] lastmsgTime = {"8:45 pm","9:00 am","7:34 pm","6:32 am","5:76 am",
-                "5:00 am","7:34 pm","2:32 am","7:76 am"};
-        String[] phoneNo = {"7656610000","9999043232","7834354323","9876543211","5434432343",
-                "9439043232","7534354323","6545543211","7654432343"};
-        String[] country = {"United States","Russia","India","Israel","Germany","Thailand","Canada","France","Switzerland"};
-
-
-
-        for(int i = 0;i< imageId.length;i++){
-
-            User user = new User(name[i],lastMessage[i],lastmsgTime[i],phoneNo[i],country[i],imageId[i]);
-            userArrayList.add(user);
-
-        }
-        userArrayList.clear();
-
-        listAdapter = new ListAdapter(MainActivity.this,userArrayList);
-
-
-        progress = new ProgressDialog(this);
-        progress.setTitle("Loading");
-        progress.setMessage("Fetching data from server....");
-        progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
-        progress.show();
-
-        fetchAndUpdateData();
-
-
-
-        ListView lv = (ListView)findViewById(R.id.listview);
-
-        lv.setAdapter(listAdapter);
-        lv.setClickable(true);
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-//                Intent i = new Intent(MainActivity.this,UserActivity.class);
-//                i.putExtra("name",name[position]);
-//                i.putExtra("phone",phoneNo[position]);
-//                i.putExtra("country",country[position]);
-//                i.putExtra("imageid",imageId[position]);
-//                startActivity(i);
-
-                Log.d(TAG, "onItemClick: ItemClicked");
-
-            }
-        });
-
-
-
-
-
-        final Handler mHandler = new Handler();
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    try {
-                        Thread.sleep(10000);
-                        mHandler.post(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                // Write your code here to call the method.
-//                                fetchData();
-                                Log.d(TAG, "run: Fetching Data from WRYD API");
-                                fetchAndUpdateData();
-
-
-                            }
-                        });
-                    } catch (Exception e) {
-                        // TODO: handle exception here
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }).start();
+//
+//        int[] imageId = {R.drawable.facebook_avatar,
+//                R.drawable.facebook_avatar,
+//                R.drawable.facebook_avatar,
+//                R.drawable.facebook_avatar,
+//                R.drawable.facebook_avatar,
+//                R.drawable.facebook_avatar,
+//                R.drawable.facebook_avatar,
+//                R.drawable.facebook_avatar,
+//                R.drawable.facebook_avatar};
+//
+//        String[] name = {"Christopher","Craig","Sergio","Mubariz","Mike","Michael","Toa","Ivana","Alex"};
+//        String[] lastMessage = {"Heye","Supp","Let's Catchup","Dinner tonight?","Gotta go",
+//                "i'm in meeting","Gotcha","Let's Go","any Weekend Plans?"};
+//        String[] lastmsgTime = {"8:45 pm","9:00 am","7:34 pm","6:32 am","5:76 am",
+//                "5:00 am","7:34 pm","2:32 am","7:76 am"};
+//        String[] phoneNo = {"7656610000","9999043232","7834354323","9876543211","5434432343",
+//                "9439043232","7534354323","6545543211","7654432343"};
+//        String[] country = {"United States","Russia","India","Israel","Germany","Thailand","Canada","France","Switzerland"};
+//
+//
+//
+//        for(int i = 0;i< imageId.length;i++){
+//
+//            User user = new User(name[i],lastMessage[i],lastmsgTime[i],phoneNo[i],country[i],imageId[i]);
+//            userArrayList.add(user);
+//
+//        }
+//        userArrayList.clear();
+//
+//        listAdapter = new ListAdapter(MainActivity.this,userArrayList);
+//
+//
+//        progress = new ProgressDialog(this);
+//        progress.setTitle("Loading");
+//        progress.setMessage("Fetching data from server....");
+//        progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
+//        progress.show();
+//
+//        fetchAndUpdateData();
+//
+//
+//
+//        ListView lv = (ListView)findViewById(R.id.listview);
+//
+//        lv.setAdapter(listAdapter);
+//        lv.setClickable(true);
+//        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+////                Intent i = new Intent(MainActivity.this,UserActivity.class);
+////                i.putExtra("name",name[position]);
+////                i.putExtra("phone",phoneNo[position]);
+////                i.putExtra("country",country[position]);
+////                i.putExtra("imageid",imageId[position]);
+////                startActivity(i);
+//
+//                Log.d(TAG, "onItemClick: ItemClicked");
+//
+//            }
+//        });
+//
+//
+//
+//
+//
+//        final Handler mHandler = new Handler();
+//
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                while (true) {
+//                    try {
+//                        Thread.sleep(10000);
+//                        mHandler.post(new Runnable() {
+//
+//                            @Override
+//                            public void run() {
+//                                // Write your code here to call the method.
+////                                fetchData();
+//                                Log.d(TAG, "run: Fetching Data from WRYD API");
+//                                fetchAndUpdateData();
+//
+//
+//                            }
+//                        });
+//                    } catch (Exception e) {
+//                        // TODO: handle exception here
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        }).start();
 
     }
 
@@ -473,6 +510,14 @@ public class MainActivity extends AppCompatActivity {
         mWebSocketClient.connect();
     }
 
+
+    private void replaceFragment(Fragment fragment)
+    {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container,fragment);
+        fragmentTransaction.commit();
+    }
 
 
 
