@@ -26,6 +26,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_nav_menu"
         app:itemIconTint="@color/black"
-        app:labelVisibilityMode="unlabeled" />
+        app:labelVisibilityMode="unlabeled"
+        android:elevation="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
