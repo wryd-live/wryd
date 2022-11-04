@@ -3,6 +3,7 @@ package com.wrydhub.wryd.wrydapp.ui;
 import static android.content.ContentValues.TAG;
 
 import android.app.ProgressDialog;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -104,23 +105,23 @@ public class home extends Fragment {
                 R.drawable.facebook_avatar,
                 R.drawable.facebook_avatar};
 
-        String[] name = {"Christopher","Craig","Sergio","Mubariz","Mike","Michael","Toa","Ivana","Alex"};
-        String[] lastMessage = {"Heye","Supp","Let's Catchup","Dinner tonight?","Gotta go",
-                "i'm in meeting","Gotcha","Let's Go","any Weekend Plans?"};
-        String[] lastmsgTime = {"8:45 pm","9:00 am","7:34 pm","6:32 am","5:76 am",
-                "5:00 am","7:34 pm","2:32 am","7:76 am"};
-        String[] phoneNo = {"7656610000","9999043232","7834354323","9876543211","5434432343",
-                "9439043232","7534354323","6545543211","7654432343"};
-        String[] country = {"United States","Russia","India","Israel","Germany","Thailand","Canada","France","Switzerland"};
+//        String[] name = {"Christopher","Craig","Sergio","Mubariz","Mike","Michael","Toa","Ivana","Alex"};
+//        String[] lastMessage = {"Heye","Supp","Let's Catchup","Dinner tonight?","Gotta go",
+//                "i'm in meeting","Gotcha","Let's Go","any Weekend Plans?"};
+//        String[] lastmsgTime = {"8:45 pm","9:00 am","7:34 pm","6:32 am","5:76 am",
+//                "5:00 am","7:34 pm","2:32 am","7:76 am"};
+//        String[] phoneNo = {"7656610000","9999043232","7834354323","9876543211","5434432343",
+//                "9439043232","7534354323","6545543211","7654432343"};
+//        String[] country = {"United States","Russia","India","Israel","Germany","Thailand","Canada","France","Switzerland"};
 
 
 
-        for(int i = 0;i< imageId.length;i++){
-
-            User user = new User(name[i],lastMessage[i],lastmsgTime[i],phoneNo[i],country[i],imageId[i]);
-            userArrayList.add(user);
-
-        }
+//        for(int i = 0;i< imageId.length;i++){
+//
+//            User user = new User(name[i],lastMessage[i],lastmsgTime[i],phoneNo[i],country[i],imageId[i]);
+//            userArrayList.add(user);
+//
+//        }
         userArrayList.clear();
 
         listAdapter = new ListAdapter(root.getContext(),userArrayList);
@@ -234,9 +235,30 @@ public class home extends Fragment {
                             String loc = pred.getString("location");
                             String probab = pred.getString("probability");
                             String lst_seen = lastSeen.func(sensTime);
-                            User us = new User(devName,loc,lst_seen,"9412247044","India",R.drawable.facebook_avatar);
+                            long lastSeenTime = Long.parseLong(sensTime);
+                            User us = new User(
+                                    devName,
+                                    loc,
+                                    lst_seen,
+                                    lastSeenTime,
+                                    "8433076726",
+                                    "India",
+                                    R.drawable.facebook_avatar
+                            );
                             userArrayList.add(us);
                         }
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            userArrayList.sort((o1, o2) -> {
+                                if (o1.getLastSeenTime() > o2.getLastSeenTime())
+                                    return -1;
+                                else if (o1.getLastSeenTime() < o2.getLastSeenTime())
+                                    return 1;
+                                else
+                                    return 0;
+                            });
+                        }
+
 
                         if(getActivity() == null)
                         {
