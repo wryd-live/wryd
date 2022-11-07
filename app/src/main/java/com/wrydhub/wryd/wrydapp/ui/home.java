@@ -95,15 +95,15 @@ public class home extends Fragment {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_home,container,false);
 
 
-        int[] imageId = {R.drawable.facebook_avatar,
-                R.drawable.facebook_avatar,
-                R.drawable.facebook_avatar,
-                R.drawable.facebook_avatar,
-                R.drawable.facebook_avatar,
-                R.drawable.facebook_avatar,
-                R.drawable.facebook_avatar,
-                R.drawable.facebook_avatar,
-                R.drawable.facebook_avatar};
+//        int[] imageId = {R.drawable.facebook_avatar,
+//                R.drawable.facebook_avatar,
+//                R.drawable.facebook_avatar,
+//                R.drawable.facebook_avatar,
+//                R.drawable.facebook_avatar,
+//                R.drawable.facebook_avatar,
+//                R.drawable.facebook_avatar,
+//                R.drawable.facebook_avatar,
+//                R.drawable.facebook_avatar};
 
 //        String[] name = {"Christopher","Craig","Sergio","Mubariz","Mike","Michael","Toa","Ivana","Alex"};
 //        String[] lastMessage = {"Heye","Supp","Let's Catchup","Dinner tonight?","Gotta go",
