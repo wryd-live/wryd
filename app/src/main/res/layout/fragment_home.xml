@@ -12,6 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/listview"
-        tools:listitem="@layout/list_item"/>
+        tools:listitem="@layout/list_item_home"/>
 
 </FrameLayout>

@@ -20,7 +20,7 @@ public class ListAdapter extends ArrayAdapter<User> {
 
     public ListAdapter(Context context, ArrayList<User> userArrayList){
 
-        super(context,R.layout.list_item,userArrayList);
+        super(context,R.layout.list_item_home,userArrayList);
 
     }
 
@@ -31,7 +31,7 @@ public class ListAdapter extends ArrayAdapter<User> {
 
         if (convertView == null){
 
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item,parent,false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_home,parent,false);
 
         }
 
