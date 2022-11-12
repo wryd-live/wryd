@@ -119,15 +119,19 @@ public class MainActivity extends AppCompatActivity {
 
             switch (item.getItemId()){
                 case R.id.home_menu:
+                    setTitle("wryd");
                     replaceFragment(new home());
                     break;
                 case R.id.notification_menu:
+                    setTitle("Notification");
                     replaceFragment(new notification());
                     break;
                 case R.id.search_menu:
+                    setTitle("Search");
                     replaceFragment(new search());
                     break;
                 case R.id.profile_menu:
+                    setTitle("Your Profile");
                     replaceFragment(new profile());
                     break;
             }
