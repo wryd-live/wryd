@@ -1,11 +1,11 @@
-package com.wrydhub.wryd.wrydapp;
+package com.wrydhub.wryd.wrydapp.models;
 
 public class User {
 
-    String name, lastMessage, lastMsgTime, phoneNo, country;
-    int imageId;
-    long lastSeenTime;
-    String imageUrl;
+    public String name, lastMessage, lastMsgTime, phoneNo, country;
+    public int imageId;
+    public long lastSeenTime;
+    public String imageUrl;
 
 
     public User(String name, String lastMessage, String lastMsgTime, long lastSeenTime, String phoneNo, String country, int imageId) {
@@ -17,6 +17,11 @@ public class User {
         this.imageId = imageId;
         this.lastSeenTime = lastSeenTime;
         this.imageUrl = "https://api.multiavatar.com/"+ name +".png";
+    }
+
+    public void setImageUrl(String newImageUrl)
+    {
+        this.imageUrl = newImageUrl;
     }
 
     public long getLastSeenTime() {

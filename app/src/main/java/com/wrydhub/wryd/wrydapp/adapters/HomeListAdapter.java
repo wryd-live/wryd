@@ -1,4 +1,4 @@
-package com.wrydhub.wryd.wrydapp;
+package com.wrydhub.wryd.wrydapp.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,15 +12,17 @@ import android.widget.TextView;
 //import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
+import com.wrydhub.wryd.wrydapp.R;
+import com.wrydhub.wryd.wrydapp.models.User;
 
 import java.util.ArrayList;
 
-public class ListAdapter extends ArrayAdapter<User> {
+public class HomeListAdapter extends ArrayAdapter<User> {
 
 
-    public ListAdapter(Context context, ArrayList<User> userArrayList){
+    public HomeListAdapter(Context context, ArrayList<User> userArrayList){
 
-        super(context,R.layout.list_item_home,userArrayList);
+        super(context, R.layout.list_item_home,userArrayList);
 
     }
 

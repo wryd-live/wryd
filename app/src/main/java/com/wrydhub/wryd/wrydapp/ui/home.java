@@ -16,10 +16,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.wrydhub.wryd.wrydapp.ListAdapter;
-import com.wrydhub.wryd.wrydapp.MainActivity;
+import com.wrydhub.wryd.wrydapp.adapters.HomeListAdapter;
 import com.wrydhub.wryd.wrydapp.R;
-import com.wrydhub.wryd.wrydapp.User;
+import com.wrydhub.wryd.wrydapp.models.User;
 import com.wrydhub.wryd.wrydapp.utils.lastSeen;
 
 import org.json.JSONArray;
@@ -53,7 +52,7 @@ public class home extends Fragment {
 
 
     ArrayList<User> userArrayList = new ArrayList<>();
-    ListAdapter listAdapter;
+    HomeListAdapter listAdapter;
     ProgressDialog progress;
 
     public home() {
@@ -124,7 +123,7 @@ public class home extends Fragment {
 //        }
         userArrayList.clear();
 
-        listAdapter = new ListAdapter(root.getContext(),userArrayList);
+        listAdapter = new HomeListAdapter(root.getContext(),userArrayList);
 
 
         progress = new ProgressDialog(getActivity());

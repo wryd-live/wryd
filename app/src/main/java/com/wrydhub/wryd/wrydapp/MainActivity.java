@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.os.Handler;
 import android.os.SystemClock;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,17 +19,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
@@ -39,19 +32,14 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
-
+import com.wrydhub.wryd.wrydapp.adapters.HomeListAdapter;
 import com.wrydhub.wryd.wrydapp.databinding.ActivityMainBinding;
+import com.wrydhub.wryd.wrydapp.models.User;
 import com.wrydhub.wryd.wrydapp.ui.home;
 import com.wrydhub.wryd.wrydapp.ui.notification;
 import com.wrydhub.wryd.wrydapp.ui.profile;
 import com.wrydhub.wryd.wrydapp.ui.search;
-import com.wrydhub.wryd.wrydapp.utils.lastSeen;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -59,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     // logging
     private final String TAG = "MainActivity";
     ArrayList<User> userArrayList = new ArrayList<>();
-    ListAdapter listAdapter;
+    HomeListAdapter listAdapter;
     ProgressDialog progress;
 
 

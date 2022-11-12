@@ -1,14 +1,24 @@
 package com.wrydhub.wryd.wrydapp.ui;
 
+import static android.content.ContentValues.TAG;
+
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
+import com.wrydhub.wryd.wrydapp.adapters.NotificationListAdapter;
 import com.wrydhub.wryd.wrydapp.R;
+import com.wrydhub.wryd.wrydapp.models.User;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +35,12 @@ public class notification extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+
+    ArrayList<User> userArrayList = new ArrayList<>();
+    NotificationListAdapter listAdapter;
+    ProgressDialog progress;
+
 
     public notification() {
         // Required empty public constructor
@@ -61,6 +77,81 @@ public class notification extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_notification, container, false);
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_home,container,false);
+
+
+        int[] imageId = {R.drawable.facebook_avatar,
+                R.drawable.facebook_avatar,
+                R.drawable.facebook_avatar,
+                R.drawable.facebook_avatar,
+                R.drawable.facebook_avatar,
+                R.drawable.facebook_avatar,
+                R.drawable.facebook_avatar,
+                R.drawable.facebook_avatar,
+                R.drawable.facebook_avatar};
+
+        String[] name = {"Christopher","Craig","Sergio","Mubariz","Mike","Michael","Toa","Ivana","Alex"};
+        String[] lastMessage = {"Heye","Supp","Let's Catchup","Dinner tonight?","Gotta go",
+                "i'm in meeting","Gotcha","Let's Go","any Weekend Plans?"};
+        String[] lastmsgTime = {"8:45 pm","9:00 am","7:34 pm","6:32 am","5:76 am",
+                "5:00 am","7:34 pm","2:32 am","7:76 am"};
+        String[] phoneNo = {"7656610000","9999043232","7834354323","9876543211","5434432343",
+                "9439043232","7534354323","6545543211","7654432343"};
+        String[] country = {"United States","Russia","India","Israel","Germany","Thailand","Canada","France","Switzerland"};
+
+
+        String[] notificationType = {
+                "requested",
+                "accepted",
+                "accepted",
+                "requested",
+                "accepted",
+                "requested",
+                "requested",
+                "accepted",
+                "other",
+        };
+
+        long notification_time = 12345678;
+        for(int i = 0;i< imageId.length;i++){
+
+            User user = new User(
+                    name[i],
+                    lastMessage[i],
+                    lastmsgTime[i],
+                    notification_time,
+                    phoneNo[i],
+                    country[i],
+                    imageId[i]);
+
+            user.setImageUrl("https://api.multiavatar.com/"+ name[i] +".png");
+            userArrayList.add(user);
+        }
+
+        listAdapter = new NotificationListAdapter(root.getContext(),userArrayList);
+
+
+        ListView lv = (ListView) root.findViewById(R.id.listview_home);
+
+        lv.setAdapter(listAdapter);
+        lv.setClickable(true);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+//                Intent i = new Intent(MainActivity.this,UserActivity.class);
+//                i.putExtra("name",name[position]);
+//                i.putExtra("phone",phoneNo[position]);
+//                i.putExtra("country",country[position]);
+//                i.putExtra("imageid",imageId[position]);
+//                startActivity(i);
+
+                Log.d(TAG, "onItemClick: Notification Item Clicked");
+
+            }
+        });
+
+
+        return root;
     }
 }
