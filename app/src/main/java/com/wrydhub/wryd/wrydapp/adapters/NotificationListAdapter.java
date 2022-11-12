@@ -42,6 +42,16 @@ public class NotificationListAdapter extends ArrayAdapter<User> {
 
         imageView.setImageResource(user.imageId);
 
+        if(user.notificationType.equals("accepted"))
+        {
+            notificationIconView.setImageResource(R.drawable.request_accepted);
+        }
+        else if(user.notificationType.equals("requested"))
+        {
+            notificationIconView.setImageResource(R.drawable.request_requested);
+        }
+
+
         Glide
             .with(convertView)
             .load(user.imageUrl)
