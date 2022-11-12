@@ -137,7 +137,7 @@ public class home extends Fragment {
 
 
 
-        ListView lv = (ListView) root.findViewById(R.id.listview);
+        ListView lv = (ListView) root.findViewById(R.id.listview_home);
 
         lv.setAdapter(listAdapter);
         lv.setClickable(true);
