@@ -35,6 +35,7 @@ public class NotificationListAdapter extends ArrayAdapter<User> {
         }
 
         ImageView imageView = (ImageView) convertView.findViewById(R.id.profile_pic);
+        ImageView notificationIconView = (ImageView) convertView.findViewById(R.id.request_icon);
         TextView userName = (TextView) convertView.findViewById(R.id.personName);
         TextView lastMsg = (TextView) convertView.findViewById(R.id.lastMessage);
         TextView time = (TextView) convertView.findViewById(R.id.msgtime);
@@ -42,9 +43,9 @@ public class NotificationListAdapter extends ArrayAdapter<User> {
         imageView.setImageResource(user.imageId);
 
         Glide
-                .with(convertView)
-                .load(user.imageUrl)
-                .into(imageView);
+            .with(convertView)
+            .load(user.imageUrl)
+            .into(imageView);
 
         userName.setText(user.name);
         lastMsg.setText(user.lastMessage);

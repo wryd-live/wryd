@@ -125,6 +125,7 @@ public class notification extends Fragment {
                     imageId[i]);
 
             user.setImageUrl("https://api.multiavatar.com/"+ name[i] +".png");
+            user.setNotificationType(notificationType[i]);
             userArrayList.add(user);
         }
 
