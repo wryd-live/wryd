@@ -15,10 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.wrydhub.wryd.wrydapp.adapters.HomeListAdapter;
 import com.wrydhub.wryd.wrydapp.R;
 import com.wrydhub.wryd.wrydapp.models.User;
+import com.wrydhub.wryd.wrydapp.utils.keysConfig;
 import com.wrydhub.wryd.wrydapp.utils.lastSeen;
 
 import org.json.JSONArray;
@@ -54,6 +56,11 @@ public class home extends Fragment {
     ArrayList<User> userArrayList = new ArrayList<>();
     HomeListAdapter listAdapter;
     ProgressDialog progress;
+
+    String savedUserid;
+    String savedOrgUsername;
+    String savedUserToken;
+
 
     public home() {
         // Required empty public constructor
@@ -122,6 +129,12 @@ public class home extends Fragment {
 //
 //        }
         userArrayList.clear();
+
+        savedUserid = getArguments().getString("userid");
+        savedOrgUsername = getArguments().getString("orgUsername");
+        savedUserToken = getArguments().getString("token");
+
+
 
         listAdapter = new HomeListAdapter(root.getContext(),userArrayList);
 
@@ -197,15 +210,22 @@ public class home extends Fragment {
     void fetchAndUpdateData()
     {
         OkHttpClient client = new OkHttpClient();
-        String url = "https://wryd.live/api/v1/locations/iiitdharwad";
+        String url = keysConfig.wrydServerURL + "/api/location/friends" ;
+        System.out.println("my url ===== "+url);
         Request request = new Request.Builder()
                 .url(url)
+                .addHeader("Authorization","Bearer "+savedUserToken)
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
+
+                getActivity().runOnUiThread(() -> {
+                    progress.dismiss();
+                    Toast.makeText(getContext(), "Unable To Fetch Data", Toast.LENGTH_SHORT).show();
+                });
             }
 
             @Override
@@ -225,7 +245,7 @@ public class home extends Fragment {
                         for(int i=0;i<deviceData.length();i++)
                         {
                             JSONObject dev = deviceData.getJSONObject(i);
-                            String devName = dev.getString("device");
+                            String devName = dev.getString("person_name");
 
                             JSONObject sens = dev.getJSONObject("sensors");
                             String sensTime = sens.getString("t");
@@ -274,8 +294,25 @@ public class home extends Fragment {
 
                     } catch (JSONException e) {
                         e.printStackTrace();
+
+                        getActivity().runOnUiThread(() -> {
+                            progress.dismiss();
+                            Toast.makeText(getContext(), "Error Parsing Data", Toast.LENGTH_SHORT).show();
+                        });
                     }
 
+                }
+                else
+                {
+                    getActivity().runOnUiThread(() -> {
+                        progress.dismiss();
+
+                        try {
+                            Toast.makeText(getContext(), "Error Fetching Data" + response.body().string(), Toast.LENGTH_SHORT).show();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
                 }
             }
         });
