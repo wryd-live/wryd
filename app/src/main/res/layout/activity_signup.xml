@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/emailInputSignUp"
+        android:id="@+id/emailInputLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="40dp"
@@ -27,13 +27,13 @@
         android:hint="Email"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/passwordSignUp"
+        app:layout_constraintBottom_toTopOf="@+id/passwordInputLogin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/passwordSignUp"
+        android:id="@+id/passwordInputLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -57,7 +57,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordSignUp" />
+        app:layout_constraintTop_toBottomOf="@+id/passwordInputLogin" />
 
     <Button
         android:id="@+id/registerbuttonSignUp"
@@ -96,7 +96,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="36dp"
         android:text="Organization"
-        app:layout_constraintBottom_toTopOf="@+id/emailInputSignUp"
+        app:layout_constraintBottom_toTopOf="@+id/emailInputLogin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

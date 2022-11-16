@@ -149,12 +149,16 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sp = getSharedPreferences("login",MODE_PRIVATE);
 
-        String savedUsername = sp.getString("user",null);
+        String savedUsername = sp.getString("userid",null);
+        String savedOrganization = sp.getString("orgUsername",null);
+        String savedToken = sp.getString("token",null);
         if(savedUsername==null)
         {
             finishAndRemoveTask();
             return;
         }
+
+        familyName = savedOrganization;
 
         // check to see if there are preferences
         SharedPreferences sharedPref = MainActivity.this.getPreferences(Context.MODE_PRIVATE);
@@ -183,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
 
             deviceName = savedUsername;
             SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putString("familyName", "iiitdharwad");
+            editor.putString("familyName", familyName);
             editor.putString("deviceName", savedUsername);
             editor.putString("serverAddress", "");
 //                    editor.putString("locationName", locationName);
