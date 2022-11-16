@@ -34,14 +34,14 @@ public class Login extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_login);
-        Button b = (Button)findViewById(R.id.loginbutton);
+        Button b = (Button)findViewById(R.id.loginbuttonLogin);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 Log.d(TAG, "onClick: Button Clicked");
 
-                EditText et = (EditText)findViewById(R.id.editTextPersonName);
+                EditText et = (EditText)findViewById(R.id.emailInputSignUp);
                 String inp = et.getText().toString();
                 Log.d(TAG, "input: "+inp);
 
