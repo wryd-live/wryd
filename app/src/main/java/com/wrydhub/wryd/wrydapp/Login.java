@@ -47,6 +47,15 @@ public class Login extends AppCompatActivity {
 
 
         String savedToken = shredpreff.getString("token",null);
+        if(savedToken!=null)
+        {
+            Intent intent = new Intent(Login.this,MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            finish();
+            startActivity(intent);
+//            Toast.makeText(getApplicationContext(),"Login Success",Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         /*
 
