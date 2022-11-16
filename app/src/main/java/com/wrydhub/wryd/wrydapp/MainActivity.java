@@ -110,29 +110,55 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences sp = getSharedPreferences("login",MODE_PRIVATE);
+
+        String savedUsername = sp.getString("userid",null);
+        String savedOrganization = sp.getString("orgUsername",null);
+        String savedToken = sp.getString("token",null);
+        if(savedUsername==null)
+        {
+            finishAndRemoveTask();
+            return;
+        }
+        Bundle bundle = new Bundle();
+        bundle.putString("userid",savedUsername);
+        bundle.putString("orgUsername",savedOrganization);
+        bundle.putString("token",savedToken);
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        replaceFragment(new home());
+        home frg1 = new home();
+        notification frg2 = new notification();
+        search frg3 = new search();
+        profile frg4 = new profile();
+
+        frg1.setArguments(bundle);
+        frg2.setArguments(bundle);
+        frg3.setArguments(bundle);
+        frg4.setArguments(bundle);
+
+        replaceFragment(frg1);
 
         binding.bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
 
             switch (item.getItemId()){
                 case R.id.home_menu:
                     setTitle("wryd");
-                    replaceFragment(new home());
+                    replaceFragment(frg1);
                     break;
                 case R.id.notification_menu:
                     setTitle("Notification");
-                    replaceFragment(new notification());
+                    replaceFragment(frg2);
                     break;
                 case R.id.search_menu:
                     setTitle("Search");
-                    replaceFragment(new search());
+                    replaceFragment(frg3);
                     break;
                 case R.id.profile_menu:
                     setTitle("Your Profile");
-                    replaceFragment(new profile());
+                    replaceFragment(frg4);
                     break;
             }
             return true;
@@ -147,16 +173,7 @@ public class MainActivity extends AppCompatActivity {
             requestPermissions(new String[]{Manifest.permission.WAKE_LOCK, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.INTERNET, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_ADMIN, Manifest.permission.CHANGE_WIFI_STATE, Manifest.permission.ACCESS_WIFI_STATE}, 1);
         }
 
-        SharedPreferences sp = getSharedPreferences("login",MODE_PRIVATE);
 
-        String savedUsername = sp.getString("userid",null);
-        String savedOrganization = sp.getString("orgUsername",null);
-        String savedToken = sp.getString("token",null);
-        if(savedUsername==null)
-        {
-            finishAndRemoveTask();
-            return;
-        }
 
         familyName = savedOrganization;
 
