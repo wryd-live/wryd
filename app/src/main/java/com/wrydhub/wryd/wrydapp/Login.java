@@ -9,7 +9,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.wrydhub.wryd.wrydapp.utils.keysConfig;
+
+import java.io.IOException;
 import java.util.regex.Pattern;
+
+import okhttp3.FormBody;
+import okhttp3.Headers;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class Login extends AppCompatActivity {
 
@@ -22,14 +33,40 @@ public class Login extends AppCompatActivity {
         final SharedPreferences sp = getSharedPreferences("login",MODE_PRIVATE);
 
 
-        String username = sp.getString("user",null);
+        String token = sp.getString("token",null);
 
-        if(username!=null)
+
+        // TODO: Fix This
+        if(token!=null)
         {
-            Intent intent = new Intent(Login.this,MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            finish();
-            startActivity(intent);
+            OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder()
+                    .addHeader("Authorization","Bearer "+token)
+                    .url(keysConfig.wrydServerURL+"/api/user/checkToken")
+                    .build();
+
+            try (Response response = client.newCall(request).execute()) {
+                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+                Headers responseHeaders = response.headers();
+                for (int i = 0; i < responseHeaders.size(); i++) {
+                    System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
+                }
+
+                System.out.println(response.body().string());
+
+                Intent intent = new Intent(Login.this,MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                finish();
+                startActivity(intent);
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+
             return;
         }
 
