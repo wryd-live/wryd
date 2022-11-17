@@ -58,6 +58,7 @@ import com.wrydhub.wryd.wrydapp.utils.lastSeen;
 
 public class MainActivity extends AppCompatActivity {
 
+
     // logging
     private final String TAG = "MainActivity";
     ArrayList<User> userArrayList = new ArrayList<>();
