@@ -84,12 +84,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    SearchView searchView;
-    ListView myListView;
-
-    ArrayList<String>arrayList;
-
-    ArrayAdapter<String>adapter;
 
 
 
@@ -160,42 +154,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_search);
-
-        searchView=findViewById(R.id.searchView);
-        myListView=findViewById((R.id.listView));
-
-        myListView.setVisibility(View.VISIBLE);
-
-
-
-
-        arrayList=new ArrayList<>();
-        arrayList.add("Monday");
-        arrayList.add("Tuesday");
-        arrayList.add("Wednesday");
-        arrayList.add("Friday");
-        arrayList.add("Saturday");
-
-        adapter=new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,arrayList);
-
-        myListView.setAdapter(adapter);
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                myListView.setVisibility(View.VISIBLE);
-                adapter.getFilter().filter(s);
-                return false;
-            }
-        });
-
-
 
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
