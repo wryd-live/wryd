@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.opengl.Visibility;
 import android.os.SystemClock;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +20,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
+import android.view.View;
+import android.widget.ListView;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
@@ -41,8 +44,56 @@ import com.wrydhub.wryd.wrydapp.ui.notification;
 import com.wrydhub.wryd.wrydapp.ui.profile;
 import com.wrydhub.wryd.wrydapp.ui.search;
 
+//search view
+
+import android.widget.SearchView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.TextView;
+
 
 public class MainActivity extends AppCompatActivity {
+
+
+    int n=0;
+
+    int Visibility=1;
+
+    Button b1,b2,b3;
+
+
+
+
+    private void visible() {
+        if (Visibility==1) {
+            b1=findViewById((R.id.button));
+            b1.setVisibility(View.VISIBLE);
+            b2=findViewById((R.id.button6));
+            b2.setVisibility(View.VISIBLE);
+            b2=findViewById((R.id.button9));
+            b2.setVisibility(View.GONE);
+        }
+        if (Visibility==2) {
+            b1=findViewById((R.id.button));
+            b1.setVisibility(View.GONE);
+            b2=findViewById((R.id.button6));
+            b2.setVisibility(View.GONE);
+            b2=findViewById((R.id.button9));
+            b2.setVisibility(View.VISIBLE);
+        }
+    }
+//visible();
+
+
+
+    SearchView searchView;
+    ListView myListView;
+
+    ArrayList<String>arrayList;
+
+    ArrayAdapter<String>adapter;
+
+
 
     // logging
     private final String TAG = "MainActivity";
@@ -109,7 +160,46 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_search);
+
+        searchView=findViewById(R.id.searchView);
+        myListView=findViewById((R.id.listView));
+
+        myListView.setVisibility(View.VISIBLE);
+
+
+
+
+        arrayList=new ArrayList<>();
+        arrayList.add("Monday");
+        arrayList.add("Tuesday");
+        arrayList.add("Wednesday");
+        arrayList.add("Friday");
+        arrayList.add("Saturday");
+
+        adapter=new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,arrayList);
+
+        myListView.setAdapter(adapter);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                myListView.setVisibility(View.VISIBLE);
+                adapter.getFilter().filter(s);
+                return false;
+            }
+        });
+
+
+
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
