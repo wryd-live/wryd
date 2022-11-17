@@ -36,6 +36,8 @@ import android.widget.Toast;
 import com.wrydhub.wryd.wrydapp.MainActivity;
 import com.wrydhub.wryd.wrydapp.R;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link profile#newInstance} factory method to
@@ -93,15 +95,23 @@ public class profile extends Fragment {
 //        ViewGroup root =  inflater.inflate(R.layout.fragment_profile, container, false);
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_profile,container,false);
         bottomsheet = root.findViewById(R.id.button7);
-        bottomsheet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                showDialog();
+        CircleImageView chngImgBtn = root.findViewById(R.id.change_image_button);
+        chngImgBtn.setOnClickListener(view -> {
 
-            }
+            showDialog();
+
+
+        });
+
+
+        bottomsheet.setOnClickListener(view -> {
+
         });
         // Inflate the layout for this fragment
+
+
+
         return root;
     }
 
