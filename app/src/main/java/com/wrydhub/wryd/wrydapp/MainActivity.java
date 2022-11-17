@@ -53,40 +53,6 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
 
-    int n=0;
-
-    int Visibility=1;
-
-    Button b1,b2,b3;
-
-
-
-
-    private void visible() {
-        if (Visibility==1) {
-            b1=findViewById((R.id.button));
-            b1.setVisibility(View.VISIBLE);
-            b2=findViewById((R.id.button6));
-            b2.setVisibility(View.VISIBLE);
-            b2=findViewById((R.id.button9));
-            b2.setVisibility(View.GONE);
-        }
-        if (Visibility==2) {
-            b1=findViewById((R.id.button));
-            b1.setVisibility(View.GONE);
-            b2=findViewById((R.id.button6));
-            b2.setVisibility(View.GONE);
-            b2=findViewById((R.id.button9));
-            b2.setVisibility(View.VISIBLE);
-        }
-    }
-//visible();
-
-
-
-
-
-
     // logging
     private final String TAG = "MainActivity";
     ArrayList<User> userArrayList = new ArrayList<>();
