@@ -26,6 +26,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
 
 import okhttp3.Call;
@@ -232,11 +233,16 @@ public class notification extends Fragment {
                             JSONObject dev = deviceData.getJSONObject(i);
                             String devName = dev.getString("person_name");
                             String devId = dev.getString("personid");
-                            String sensTime = dev.getString("time");
+                            String sqlTime = dev.getString("time");
                             String notificationType = dev.getString("type");
-
-//                            String lst_seen = lastSeen.func(sensTime);
-//                            long lastSeenTime = Long.parseLong(sensTime);
+                            String sensTime = "1668367250140";
+                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                Instant  instTime = Instant.parse(sqlTime);
+                                long epoTime = instTime.toEpochMilli();
+                                sensTime = Long.toString(epoTime);
+                            }
+                            String lst_seen = lastSeen.func(sensTime);
+                            long lastSeenTime = Long.parseLong(sensTime);
 
                             String notificationMessage;
                             if(notificationType.equals("accepted"))
@@ -255,8 +261,8 @@ public class notification extends Fragment {
                             User user = new User(
                                     devName,
                                     notificationMessage,
-                                    sensTime,
-                                    123456,
+                                    lst_seen,
+                                    lastSeenTime,
                                     "8433076726",
                                     "india",
                                     R.drawable.facebook_avatar);
