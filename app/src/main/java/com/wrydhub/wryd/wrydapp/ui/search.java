@@ -3,17 +3,21 @@ package com.wrydhub.wryd.wrydapp.ui;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SearchView;
+//import android.widget.SearchView;
+import androidx.appcompat.widget.SearchView;
 
 import com.wrydhub.wryd.wrydapp.R;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,13 +35,32 @@ public class search extends Fragment {
     private String mParam1;
     private String mParam2;
 
+//
+    SearchView searchVieww;
+    RecyclerView recyclerView;
 
-    SearchView searchView;
-    ListView myListView;
+    ArrayList<ModelClass>arrayList=new ArrayList<>();
+    ArrayList<ModelClass>searchList;
+    String[] fruitList=new String[]{
+            "Apple","Banana","Pineapple","Orange","Lychee","Guava","Peach","Melon","Watermelon","Papaya"
+    };
 
-    ArrayList<String> arrayList;
+    int[] imgList=new int[]{
+            R.drawable.camera_icon,R.drawable.camera_icon,R.drawable.camera_icon,R.drawable.camera_icon,R.drawable.camera_icon,R.drawable.camera_icon,R.drawable.camera_icon,R.drawable.camera_icon,R.drawable.camera_icon,R.drawable.camera_icon
+    };
 
-    ArrayAdapter adapter;
+    String[] fruitNum=new String[]{
+            "Fruit 1","Fruit 2","Fruit 3","Fruit 4","Fruit 5","Fruit 6","Fruit 7","Fruit 8","Fruit 9","Fruit 10"
+    };
+
+
+
+
+//    ListView myListView;
+//
+//    ArrayList<String> arrayList;
+//
+//    ArrayAdapter adapter;
 
     public search() {
         // Required empty public constructor
@@ -78,38 +101,132 @@ public class search extends Fragment {
 
 
 
-        searchView=root.findViewById(R.id.searchView);
-        myListView=root.findViewById((R.id.listView));
-
-        myListView.setVisibility(View.VISIBLE);
 
 
 
 
-        arrayList=new ArrayList<>();
-        arrayList.add("Monday");
-        arrayList.add("Tuesday");
-        arrayList.add("Wednesday");
-        arrayList.add("Friday");
-        arrayList.add("Saturday");
+        recyclerView=root.findViewById(R.id.recyclerView);
+        searchVieww=root.findViewById(R.id.searchView);
 
-        adapter=new ArrayAdapter<>(root.getContext(), android.R.layout.simple_list_item_1,arrayList);
+        for (int i=0;i<fruitList.length;i++){
+        ModelClass modelClass=new ModelClass();
+        modelClass.setFruitName(fruitList[i]);
+        modelClass.setFruitNum(fruitNum[i]);
+        modelClass.setImg(imgList[i]);
 
-        myListView.setAdapter(adapter);
+        arrayList.add(modelClass);
+        }
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+
+        FruitAdapter fruitAdapter = new FruitAdapter(getContext(),arrayList);
+        recyclerView.setAdapter(fruitAdapter);
+
+        searchVieww.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String s) {
+            public boolean onQueryTextSubmit(String query) {
+            searchList=new ArrayList<>();
+
+//                String query;
+                if (query.length()>0){
+                for (int i=0;i<arrayList.size();i++){
+                    if(arrayList.get(i).getFruitName().toUpperCase().contains(query.toUpperCase())){
+                        ModelClass modelClass=new ModelClass();
+                        modelClass.setFruitName(arrayList.get(i).getFruitName());
+                        modelClass.setFruitNum(arrayList.get(i).getFruitNum());
+                        modelClass.setImg(arrayList.get(i).getImg());
+                        searchList.add(modelClass);
+                    }
+                }
+
+                RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
+                recyclerView.setLayoutManager(layoutManager);
+
+                FruitAdapter fruitAdapter = new FruitAdapter(getContext(),searchList);
+                recyclerView.setAdapter(fruitAdapter);
+                }
+
+                else{
+
+                    RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
+                    recyclerView.setLayoutManager(layoutManager);
+
+                    FruitAdapter fruitAdapter = new FruitAdapter(getContext(),arrayList);
+                    recyclerView.setAdapter(fruitAdapter);
+
+                }
                 return false;
             }
 
             @Override
-            public boolean onQueryTextChange(String s) {
-                myListView.setVisibility(View.VISIBLE);
-                adapter.getFilter().filter(s);
+            public boolean onQueryTextChange(String newText) {
+                searchList=new ArrayList<>();
+
+//                String query;
+                if (newText.length()>0){
+                    for (int i=0;i<arrayList.size();i++){
+                        if(arrayList.get(i).getFruitName().toUpperCase().contains(newText.toUpperCase())){
+                            ModelClass modelClass=new ModelClass();
+                            modelClass.setFruitName(arrayList.get(i).getFruitName());
+                            modelClass.setFruitNum(arrayList.get(i).getFruitNum());
+                            modelClass.setImg(arrayList.get(i).getImg());
+                            searchList.add(modelClass);
+                        }
+                    }
+
+                    RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
+                    recyclerView.setLayoutManager(layoutManager);
+
+                    FruitAdapter fruitAdapter = new FruitAdapter(getContext(),searchList);
+                    recyclerView.setAdapter(fruitAdapter);
+                }
+
+                else{
+
+                    RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
+                    recyclerView.setLayoutManager(layoutManager);
+
+                    FruitAdapter fruitAdapter = new FruitAdapter(getContext(),arrayList);
+                    recyclerView.setAdapter(fruitAdapter);
+
+                }
                 return false;
             }
         });
+
+//        searchView=root.findViewById(R.id.searchView);
+//        myListView=root.findViewById((R.id.listView));
+//
+//        myListView.setVisibility(View.VISIBLE);
+//
+//
+//
+//
+//        arrayList=new ArrayList<>();
+//        arrayList.add("Monday");
+//        arrayList.add("Tuesday");
+//        arrayList.add("Wednesday");
+//        arrayList.add("Friday");
+//        arrayList.add("Saturday");
+//
+//        adapter=new ArrayAdapter<>(root.getContext(), android.R.layout.simple_list_item_1,arrayList);
+//
+//        myListView.setAdapter(adapter);
+//
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String s) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String s) {
+//                myListView.setVisibility(View.VISIBLE);
+//                adapter.getFilter().filter(s);
+//                return false;
+//            }
+//        });
 
 
 
