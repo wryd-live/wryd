@@ -141,28 +141,12 @@
                         android:elevation="3dp"
                         android:paddingStart="20dp"
                         android:paddingEnd="20dp"
-                        android:text="Logut"
+                        android:text="Logout"
                         android:textAlignment="center"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
-                    <Button
-                        android:id="@+id/button7"
-                        android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:background="@drawable/background_btn"
-                        android:drawableEnd="@drawable/background_btn"
-                        android:drawablePadding="20dp"
 
-                        android:elevation="3dp"
-                        android:paddingStart="20dp"
-                        android:paddingEnd="20dp"
-                        android:text="change"
-                        android:textAlignment="center"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
