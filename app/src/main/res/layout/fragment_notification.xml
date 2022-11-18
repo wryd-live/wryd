@@ -7,6 +7,29 @@
 <!--    android:background="@color/purple_200"-->
 
     <!-- TODO: Update blank fragment layout -->
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_view_container_notification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+            <include layout="@layout/shimmer_list_item"/>
+            <include layout="@layout/shimmer_list_item"/>
+            <include layout="@layout/shimmer_list_item"/>
+            <include layout="@layout/shimmer_list_item"/>
+            <include layout="@layout/shimmer_list_item"/>
+            <include layout="@layout/shimmer_list_item"/>
+
+
+        </LinearLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

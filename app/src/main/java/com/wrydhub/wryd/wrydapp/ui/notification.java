@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.wrydhub.wryd.wrydapp.adapters.NotificationListAdapter;
 import com.wrydhub.wryd.wrydapp.R;
 import com.wrydhub.wryd.wrydapp.models.User;
@@ -57,6 +58,7 @@ public class notification extends Fragment {
     ArrayList<User> userArrayList = new ArrayList<>();
     NotificationListAdapter listAdapter;
     ProgressDialog progress;
+    ShimmerFrameLayout shimmer;
 
 
     public notification() {
@@ -158,14 +160,19 @@ public class notification extends Fragment {
             userArrayList.add(user);
         }
          */
-
+        userArrayList.clear();
         listAdapter = new NotificationListAdapter(root.getContext(),userArrayList);
 
-        progress = new ProgressDialog(getActivity());
-        progress.setTitle("Loading");
-        progress.setMessage("Fetching notifications from server....");
-        progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
-        progress.show();
+        shimmer = root.findViewById(R.id.shimmer_view_container_notification);
+
+        shimmer.startShimmer();
+
+
+//        progress = new ProgressDialog(getActivity());
+//        progress.setTitle("Loading");
+//        progress.setMessage("Fetching notifications from server....");
+//        progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
+//        progress.show();
 
         fetchAndUpdateData();
 
@@ -210,7 +217,9 @@ public class notification extends Fragment {
                 e.printStackTrace();
 
                 getActivity().runOnUiThread(() -> {
-                    progress.dismiss();
+//                    progress.dismiss();
+                    stopShimmer();
+
                     Toast.makeText(getContext(), "Unable To Fetch Data", Toast.LENGTH_SHORT).show();
                 });
             }
@@ -293,7 +302,9 @@ public class notification extends Fragment {
                             @Override
                             public void run() {
                                 listAdapter.notifyDataSetChanged();
-                                progress.dismiss();
+//                                progress.dismiss();
+                                stopShimmer();
+
                             }
                         });
 
@@ -301,7 +312,9 @@ public class notification extends Fragment {
                         e.printStackTrace();
 
                         getActivity().runOnUiThread(() -> {
-                            progress.dismiss();
+//                            progress.dismiss();
+                            stopShimmer();
+
                             Toast.makeText(getContext(), "Error Parsing Data", Toast.LENGTH_SHORT).show();
                         });
                     }
@@ -310,8 +323,8 @@ public class notification extends Fragment {
                 else
                 {
                     getActivity().runOnUiThread(() -> {
-                        progress.dismiss();
-
+//                        progress.dismiss();
+                        stopShimmer();
                         try {
                             Toast.makeText(getContext(), "Error Fetching Data" + response.body().string(), Toast.LENGTH_SHORT).show();
                         } catch (IOException e) {
@@ -321,5 +334,12 @@ public class notification extends Fragment {
                 }
             }
         });
+    }
+
+
+    void stopShimmer()
+    {
+        shimmer.hideShimmer();
+        shimmer.setVisibility(View.INVISIBLE);
     }
 }
