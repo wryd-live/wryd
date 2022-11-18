@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.wrydhub.wryd.wrydapp.adapters.HomeListAdapter;
 import com.wrydhub.wryd.wrydapp.R;
 import com.wrydhub.wryd.wrydapp.models.User;
@@ -60,6 +61,8 @@ public class home extends Fragment {
     String savedUserid;
     String savedOrgUsername;
     String savedUserToken;
+
+    ShimmerFrameLayout shimmer;
 
 
     public home() {
@@ -139,11 +142,16 @@ public class home extends Fragment {
         listAdapter = new HomeListAdapter(root.getContext(),userArrayList);
 
 
-        progress = new ProgressDialog(getActivity());
-        progress.setTitle("Loading");
-        progress.setMessage("Fetching data from server....");
-        progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
-        progress.show();
+//        progress = new ProgressDialog(getActivity());
+//        progress.setTitle("Loading");
+//        progress.setMessage("Fetching data from server....");
+//        progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
+//        progress.show();
+
+        shimmer = root.findViewById(R.id.shimmer_view_container_home);
+
+        shimmer.startShimmer();
+
 
         fetchAndUpdateData();
 
@@ -223,7 +231,9 @@ public class home extends Fragment {
                 e.printStackTrace();
 
                 getActivity().runOnUiThread(() -> {
-                    progress.dismiss();
+//                    progress.dismiss();
+                    stopShimmer();
+
                     Toast.makeText(getContext(), "Unable To Fetch Data", Toast.LENGTH_SHORT).show();
                 });
             }
@@ -288,7 +298,9 @@ public class home extends Fragment {
                             @Override
                             public void run() {
                                 listAdapter.notifyDataSetChanged();
-                                progress.dismiss();
+//                                progress.dismiss();
+                                stopShimmer();
+
                             }
                         });
 
@@ -296,7 +308,9 @@ public class home extends Fragment {
                         e.printStackTrace();
 
                         getActivity().runOnUiThread(() -> {
-                            progress.dismiss();
+//                            progress.dismiss();
+                            stopShimmer();
+
                             Toast.makeText(getContext(), "Error Parsing Data", Toast.LENGTH_SHORT).show();
                         });
                     }
@@ -305,7 +319,8 @@ public class home extends Fragment {
                 else
                 {
                     getActivity().runOnUiThread(() -> {
-                        progress.dismiss();
+//                        progress.dismiss();
+                        stopShimmer();
 
                         try {
                             Toast.makeText(getContext(), "Error Fetching Data" + response.body().string(), Toast.LENGTH_SHORT).show();
@@ -316,5 +331,13 @@ public class home extends Fragment {
                 }
             }
         });
+    }
+
+
+
+    void stopShimmer()
+    {
+        shimmer.hideShimmer();
+        shimmer.setVisibility(View.INVISIBLE);
     }
 }

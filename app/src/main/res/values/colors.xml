@@ -158,4 +158,5 @@
     <color name="medium_blue">#0000CD</color>
     <color name="dark_blue">#00008B</color>
     <color name="navy">#000080</color>
+    <color name="shimmerColor">#C0C6CF</color>
 </resources>
