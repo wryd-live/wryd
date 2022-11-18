@@ -1,23 +1,28 @@
 package com.wrydhub.wryd.wrydapp.ui;
 
+import static android.content.ContentValues.TAG;
+
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.ListView;
 //import android.widget.SearchView;
 import androidx.appcompat.widget.SearchView;
 
 import com.wrydhub.wryd.wrydapp.R;
+import com.wrydhub.wryd.wrydapp.adapters.HomeListAdapter;
+import com.wrydhub.wryd.wrydapp.models.User;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -52,6 +57,9 @@ public class search extends Fragment {
     String[] fruitNum=new String[]{
             "Fruit 1","Fruit 2","Fruit 3","Fruit 4","Fruit 5","Fruit 6","Fruit 7","Fruit 8","Fruit 9","Fruit 10"
     };
+
+
+    ArrayList<User> userArrayList = new ArrayList<>();
 
 
 
@@ -94,18 +102,85 @@ public class search extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_search,container,false);
 
 
+        int[] imageId = {R.drawable.facebook_avatar,
+                R.drawable.facebook_avatar,
+                R.drawable.facebook_avatar,
+                R.drawable.facebook_avatar,
+                R.drawable.facebook_avatar,
+                R.drawable.facebook_avatar,
+                R.drawable.facebook_avatar,
+                R.drawable.facebook_avatar,
+                R.drawable.facebook_avatar};
+
+        String[] name = {"Christopher","Craig","Sergio","Mubariz","Mike","Michael","Toa","Ivana","Alex"};
+        String[] lastMessage = {"Heye","Supp","Let's Catchup","Dinner tonight?","Gotta go",
+                "i'm in meeting","Gotcha","Let's Go","any Weekend Plans?"};
+        String[] lastmsgTime = {"8:45 pm","9:00 am","7:34 pm","6:32 am","5:76 am",
+                "5:00 am","7:34 pm","2:32 am","7:76 am"};
+        String[] phoneNo = {"7656610000","9999043232","7834354323","9876543211","5434432343",
+                "9439043232","7534354323","6545543211","7654432343"};
+        String[] country = {"United States","Russia","India","Israel","Germany","Thailand","Canada","France","Switzerland"};
 
 
 
+        for(int i = 0;i< imageId.length;i++){
+
+            User user = new User(
+                    name[i],
+                    lastMessage[i],
+                    lastmsgTime[i],
+                    123456,
+                    phoneNo[i],
+                    country[i],
+                    imageId[i]
+            );
+
+            userArrayList.add(user);
+
+        }
 
 
-        recyclerView=root.findViewById(R.id.recyclerView);
+        HomeListAdapter listAdapter = new HomeListAdapter(root.getContext(), userArrayList);
+        ListView lv = (ListView) root.findViewById(R.id.listview_search);
+
+        lv.setAdapter(listAdapter);
+        lv.setClickable(true);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+//                Intent i = new Intent(MainActivity.this,UserActivity.class);
+//                i.putExtra("name",name[position]);
+//                i.putExtra("phone",phoneNo[position]);
+//                i.putExtra("country",country[position]);
+//                i.putExtra("imageid",imageId[position]);
+//                startActivity(i);
+
+                Log.d(TAG, "onItemClick: ItemClicked");
+
+            }
+        });
+
+
+
+        recyclerView=root.findViewById(R.id.recyclerView_searchPage);
         searchVieww=root.findViewById(R.id.searchView);
 
         recyclerView.setVisibility(View.INVISIBLE);

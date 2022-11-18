@@ -28,12 +28,20 @@
 </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:visibility="invisible"
+        android:id="@+id/recyclerView_searchPage"
         android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/card"/>
 
+    <ListView
+        android:id="@+id/listview_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/card"
+        android:layout_marginTop="34dp"
+        tools:listitem="@layout/list_item_home" />
 
 
 </RelativeLayout>
