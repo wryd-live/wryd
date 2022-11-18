@@ -6,6 +6,8 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -179,136 +181,22 @@ public class search extends Fragment {
         });
 
 
-
-        recyclerView=root.findViewById(R.id.recyclerView_searchPage);
         searchVieww=root.findViewById(R.id.searchView);
+        searchVieww.setOnClickListener(view -> {
+            Log.d(TAG, "onCreateView: Clicked Search");
 
-        recyclerView.setVisibility(View.INVISIBLE);
-        for (int i=0;i<fruitList.length;i++){
-        ModelClass modelClass=new ModelClass();
-        modelClass.setFruitName(fruitList[i]);
-        modelClass.setFruitNum(fruitNum[i]);
-        modelClass.setImg(imgList[i]);
-
-        arrayList.add(modelClass);
-        }
-
-        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
-
-        FruitAdapter fruitAdapter = new FruitAdapter(getContext(),arrayList);
-        recyclerView.setAdapter(fruitAdapter);
-
-        searchVieww.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-            searchList=new ArrayList<>();
-
-//                String query;
-                if (query.length()>0){
-                for (int i=0;i<arrayList.size();i++){
-                    recyclerView.setVisibility(View.VISIBLE);
-                    if(arrayList.get(i).getFruitName().toUpperCase().contains(query.toUpperCase())){
-                        ModelClass modelClass=new ModelClass();
-                        modelClass.setFruitName(arrayList.get(i).getFruitName());
-                        modelClass.setFruitNum(arrayList.get(i).getFruitNum());
-                        modelClass.setImg(arrayList.get(i).getImg());
-                        searchList.add(modelClass);
-                    }
-                }
-
-                RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
-                recyclerView.setLayoutManager(layoutManager);
-
-                FruitAdapter fruitAdapter = new FruitAdapter(getContext(),searchList);
-                recyclerView.setAdapter(fruitAdapter);
-                }
-
-                else{
-                    recyclerView.setVisibility(View.VISIBLE);
-                    RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
-                    recyclerView.setLayoutManager(layoutManager);
-
-                    FruitAdapter fruitAdapter = new FruitAdapter(getContext(),arrayList);
-                    recyclerView.setAdapter(fruitAdapter);
-
-                }
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                searchList=new ArrayList<>();
-
-//                String query;
-                if (newText.length()>0){
-                    recyclerView.setVisibility(View.VISIBLE);
-                    for (int i=0;i<arrayList.size();i++){
-                        if(arrayList.get(i).getFruitName().toUpperCase().contains(newText.toUpperCase())){
-                            ModelClass modelClass=new ModelClass();
-                            modelClass.setFruitName(arrayList.get(i).getFruitName());
-                            modelClass.setFruitNum(arrayList.get(i).getFruitNum());
-                            modelClass.setImg(arrayList.get(i).getImg());
-                            searchList.add(modelClass);
-                        }
-                    }
-
-                    RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
-                    recyclerView.setLayoutManager(layoutManager);
-
-                    FruitAdapter fruitAdapter = new FruitAdapter(getContext(),searchList);
-                    recyclerView.setAdapter(fruitAdapter);
-                }
-
-                else{
-                    recyclerView.setVisibility(View.VISIBLE);
-
-                    RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
-                    recyclerView.setLayoutManager(layoutManager);
-
-                    FruitAdapter fruitAdapter = new FruitAdapter(getContext(),arrayList);
-                    recyclerView.setAdapter(fruitAdapter);
-
-                }
-                return false;
-            }
+            fragment_search_bar fsb = new fragment_search_bar();
+            replaceFragment(fsb);
         });
-
-//        searchView=root.findViewById(R.id.searchView);
-//        myListView=root.findViewById((R.id.listView));
-//
-//        myListView.setVisibility(View.VISIBLE);
-//
-//
-//
-//
-//        arrayList=new ArrayList<>();
-//        arrayList.add("Monday");
-//        arrayList.add("Tuesday");
-//        arrayList.add("Wednesday");
-//        arrayList.add("Friday");
-//        arrayList.add("Saturday");
-//
-//        adapter=new ArrayAdapter<>(root.getContext(), android.R.layout.simple_list_item_1,arrayList);
-//
-//        myListView.setAdapter(adapter);
-//
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String s) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String s) {
-//                myListView.setVisibility(View.VISIBLE);
-//                adapter.getFilter().filter(s);
-//                return false;
-//            }
-//        });
-
-
-
         return root;
+    }
+
+
+    private void replaceFragment(Fragment fragment)
+    {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container,fragment);
+        fragmentTransaction.commit();
     }
 }
