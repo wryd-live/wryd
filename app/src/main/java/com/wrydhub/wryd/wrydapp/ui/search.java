@@ -108,6 +108,7 @@ public class search extends Fragment {
         recyclerView=root.findViewById(R.id.recyclerView);
         searchVieww=root.findViewById(R.id.searchView);
 
+        recyclerView.setVisibility(View.INVISIBLE);
         for (int i=0;i<fruitList.length;i++){
         ModelClass modelClass=new ModelClass();
         modelClass.setFruitName(fruitList[i]);
@@ -131,6 +132,7 @@ public class search extends Fragment {
 //                String query;
                 if (query.length()>0){
                 for (int i=0;i<arrayList.size();i++){
+                    recyclerView.setVisibility(View.VISIBLE);
                     if(arrayList.get(i).getFruitName().toUpperCase().contains(query.toUpperCase())){
                         ModelClass modelClass=new ModelClass();
                         modelClass.setFruitName(arrayList.get(i).getFruitName());
@@ -148,7 +150,7 @@ public class search extends Fragment {
                 }
 
                 else{
-
+                    recyclerView.setVisibility(View.VISIBLE);
                     RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
                     recyclerView.setLayoutManager(layoutManager);
 
@@ -165,6 +167,7 @@ public class search extends Fragment {
 
 //                String query;
                 if (newText.length()>0){
+                    recyclerView.setVisibility(View.VISIBLE);
                     for (int i=0;i<arrayList.size();i++){
                         if(arrayList.get(i).getFruitName().toUpperCase().contains(newText.toUpperCase())){
                             ModelClass modelClass=new ModelClass();
@@ -183,6 +186,7 @@ public class search extends Fragment {
                 }
 
                 else{
+                    recyclerView.setVisibility(View.VISIBLE);
 
                     RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
                     recyclerView.setLayoutManager(layoutManager);
