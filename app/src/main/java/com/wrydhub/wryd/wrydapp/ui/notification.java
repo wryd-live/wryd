@@ -95,7 +95,7 @@ public class notification extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_home,container,false);
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_notification,container,false);
 
 
         int[] imageId = {R.drawable.facebook_avatar,
@@ -170,7 +170,7 @@ public class notification extends Fragment {
         fetchAndUpdateData();
 
 
-        ListView lv = (ListView) root.findViewById(R.id.listview_home);
+        ListView lv = (ListView) root.findViewById(R.id.listview_notification);
 
         lv.setAdapter(listAdapter);
         lv.setClickable(true);
