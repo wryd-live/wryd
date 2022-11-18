@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 //import android.widget.SearchView;
 import androidx.appcompat.widget.SearchView;
@@ -182,6 +183,11 @@ public class search extends Fragment {
 
 
         searchVieww=root.findViewById(R.id.searchView);
+
+        ImageView closeBtn = (ImageView) searchVieww.findViewById(R.id.search_button);
+        closeBtn.setEnabled(false);
+
+
         searchVieww.setOnClickListener(view -> {
             Log.d(TAG, "onCreateView: Clicked Search");
 
