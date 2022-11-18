@@ -129,7 +129,7 @@ public class profile extends Fragment {
             public void onClick(View v) {
 
                 dialog.dismiss();
-                Toast.makeText(getContext(),"Edit is Clicked",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"Remove is Clicked",Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -139,7 +139,7 @@ public class profile extends Fragment {
             public void onClick(View v) {
 
                 dialog.dismiss();
-                Toast.makeText(getContext(),"Share is Clicked",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"Upload is Clicked",Toast.LENGTH_SHORT).show();
 
             }
         });
