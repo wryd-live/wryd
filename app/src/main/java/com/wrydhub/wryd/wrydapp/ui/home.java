@@ -230,12 +230,15 @@ public class home extends Fragment {
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
 
-                getActivity().runOnUiThread(() -> {
-//                    progress.dismiss();
-                    stopShimmer();
 
-                    Toast.makeText(getContext(), "Unable To Fetch Data", Toast.LENGTH_SHORT).show();
-                });
+                if(getActivity()!=null) {
+                    getActivity().runOnUiThread(() -> {
+//                    progress.dismiss();
+                        stopShimmer();
+
+                        Toast.makeText(getContext(), "Unable To Fetch Data", Toast.LENGTH_SHORT).show();
+                    });
+                }
             }
 
             @Override
@@ -307,27 +310,32 @@ public class home extends Fragment {
                     } catch (JSONException e) {
                         e.printStackTrace();
 
-                        getActivity().runOnUiThread(() -> {
-//                            progress.dismiss();
-                            stopShimmer();
 
-                            Toast.makeText(getContext(), "Error Parsing Data", Toast.LENGTH_SHORT).show();
-                        });
+                        if(getActivity()!=null) {
+                            getActivity().runOnUiThread(() -> {
+//                            progress.dismiss();
+                                stopShimmer();
+
+                                Toast.makeText(getContext(), "Error Parsing Data", Toast.LENGTH_SHORT).show();
+                            });
+                        }
                     }
 
                 }
                 else
                 {
-                    getActivity().runOnUiThread(() -> {
+                    if(getActivity()!=null) {
+                        getActivity().runOnUiThread(() -> {
 //                        progress.dismiss();
-                        stopShimmer();
+                            stopShimmer();
 
-                        try {
-                            Toast.makeText(getContext(), "Error Fetching Data" + response.body().string(), Toast.LENGTH_SHORT).show();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    });
+                            try {
+                                Toast.makeText(getContext(), "Error Fetching Data" + response.body().string(), Toast.LENGTH_SHORT).show();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        });
+                    }
                 }
             }
         });

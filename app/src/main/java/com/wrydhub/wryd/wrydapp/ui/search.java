@@ -325,6 +325,14 @@ public class search extends Fragment {
                     }
 
                 }
+                else
+                {
+                    getActivity().runOnUiThread(() -> {
+                        progress.dismiss();
+//                    stopShimmer();
+                        Toast.makeText(getContext(), "Unable To Fetch Data", Toast.LENGTH_SHORT).show();
+                    });
+                }
             }
         });
     }
