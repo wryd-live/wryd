@@ -4,6 +4,8 @@ import static android.content.ContentValues.TAG;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
@@ -18,6 +20,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.wrydhub.wryd.wrydapp.Login;
+import com.wrydhub.wryd.wrydapp.MainActivity;
 import com.wrydhub.wryd.wrydapp.adapters.NotificationListAdapter;
 import com.wrydhub.wryd.wrydapp.R;
 import com.wrydhub.wryd.wrydapp.models.User;
@@ -34,8 +38,10 @@ import java.util.ArrayList;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -216,14 +222,19 @@ public class notification extends Fragment {
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // Continue with delete operation
+
+                                int dismissedNotificationId = userArrayList.get(pos).notificationId;
+                                dismissNotification(dismissedNotificationId);
+
+
+
+
                             }
                         })
-
                         // A null listener allows the button to dismiss the dialog and take no further action.
                         .setNegativeButton(android.R.string.no, null)
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .show();
-
 
 
 
@@ -275,7 +286,8 @@ public class notification extends Fragment {
                         {
                             JSONObject dev = deviceData.getJSONObject(i);
                             String devName = dev.getString("person_name");
-                            String devId = dev.getString("personid");
+                            int devId = Integer.parseInt(dev.getString("personid"));
+                            int notificationId = Integer.parseInt(dev.getString("notificationid"));
                             String sqlTime = dev.getString("time");
                             String notificationType = dev.getString("type");
                             String sensTime = "1668367250140";
@@ -312,6 +324,8 @@ public class notification extends Fragment {
 
                             user.setImageUrl("https://api.multiavatar.com/"+ devName +".png");
                             user.setNotificationType(notificationType);
+                            user.setPersonId(devId);
+                            user.setNotificationId(notificationId);
                             userArrayList.add(user);
                         }
 
@@ -371,9 +385,90 @@ public class notification extends Fragment {
     }
 
 
+
+    private void dismissNotification(int notificationId)
+    {
+        startShimmer();
+        userArrayList.clear();
+        listAdapter.notifyDataSetChanged();
+
+        OkHttpClient client = new OkHttpClient();
+        String url = keysConfig.wrydServerURL + "/api/notification/dismiss/" + notificationId;
+        System.out.println("my url ===== "+url);
+        Request request = new Request.Builder()
+                .url(url)
+                .addHeader("Authorization","Bearer "+savedUserToken)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+
+                getActivity().runOnUiThread(() -> {
+
+//                    stopShimmer();
+
+                    Toast.makeText(getContext(), "Unable To Delete Notification", Toast.LENGTH_SHORT).show();
+                });
+
+
+                fetchAndUpdateData();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(response.isSuccessful())
+                {
+                    Log.d(TAG, "=================================");
+
+                    String result = response.body().string();
+                    Log.d(TAG, "onResponse: "+result);
+
+                        if(getActivity() == null)
+                        {
+                            return;
+                        }
+
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+//                                progress.dismiss();
+//                                stopShimmer();
+
+                            }
+                        });
+                }
+                else
+                {
+                    getActivity().runOnUiThread(() -> {
+//                        progress.dismiss();
+//                        stopShimmer();
+                        try {
+                            Toast.makeText(getContext(), "Error Dismissing Notification" + response.body().string(), Toast.LENGTH_SHORT).show();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                }
+
+
+
+                fetchAndUpdateData();
+            }
+        });
+    }
+
     void stopShimmer()
     {
         shimmer.hideShimmer();
         shimmer.setVisibility(View.INVISIBLE);
+    }
+
+
+    void startShimmer()
+    {
+        shimmer.startShimmer();
+        shimmer.setVisibility(View.VISIBLE);
     }
 }

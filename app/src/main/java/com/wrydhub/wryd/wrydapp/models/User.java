@@ -7,6 +7,8 @@ public class User {
     public long lastSeenTime;
     public String imageUrl;
     public String notificationType;
+    public int personId;
+    public int notificationId;
 
     public User(String name, String lastMessage, String lastMsgTime, long lastSeenTime, String phoneNo, String country, int imageId) {
         this.name = name;
@@ -27,6 +29,16 @@ public class User {
     public void setNotificationType(String pnotification)
     {
         this.notificationType = pnotification;
+    }
+
+    public void setPersonId(int myPersonId)
+    {
+        this.personId=myPersonId;
+    }
+
+    public void setNotificationId(int notificationId)
+    {
+        this.notificationId = notificationId;
     }
 
     public long getLastSeenTime() {
