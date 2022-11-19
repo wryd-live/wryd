@@ -83,14 +83,7 @@ public class SearchActivity extends AppCompatActivity {
         searchVieww=findViewById(R.id.searchView);
 
         recyclerView.setVisibility(View.INVISIBLE);
-        for (int i=0;i<fruitList.length;i++){
-            ModelClass modelClass=new ModelClass();
-            modelClass.setFruitName(fruitList[i]);
-            modelClass.setFruitNum(fruitNum[i]);
-            modelClass.setImg(imgList[i]);
 
-            arrayList.add(modelClass);
-        }
 
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -186,6 +179,7 @@ public class SearchActivity extends AppCompatActivity {
                         modelClass.setFruitName(person_name);
                         modelClass.setFruitNum(pid);
                         modelClass.setImg(R.drawable.camera_icon);
+                        modelClass.setPersonId(Integer.parseInt(pid));
 
                         fetchedUsers.add(modelClass);
                     }

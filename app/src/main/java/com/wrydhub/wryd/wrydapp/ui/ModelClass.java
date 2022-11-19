@@ -3,6 +3,7 @@ package com.wrydhub.wryd.wrydapp.ui;
 public class ModelClass {
     String fruitName,fruitNum;
     int img;
+    int personId;
 
     public String getFruitName() {
         return fruitName;
@@ -26,5 +27,9 @@ public class ModelClass {
 
     public void setImg(int img) {
         this.img = img;
+    }
+
+    public void setPersonId(int personId) {
+        this.personId = personId;
     }
 }
