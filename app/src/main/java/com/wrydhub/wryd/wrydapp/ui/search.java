@@ -2,6 +2,7 @@ package com.wrydhub.wryd.wrydapp.ui;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +23,7 @@ import android.widget.ListView;
 import androidx.appcompat.widget.SearchView;
 
 import com.wrydhub.wryd.wrydapp.R;
+import com.wrydhub.wryd.wrydapp.SearchActivity;
 import com.wrydhub.wryd.wrydapp.adapters.HomeListAdapter;
 import com.wrydhub.wryd.wrydapp.models.User;
 
@@ -191,8 +193,13 @@ public class search extends Fragment {
         searchVieww.setOnClickListener(view -> {
             Log.d(TAG, "onCreateView: Clicked Search");
 
-            fragment_search_bar fsb = new fragment_search_bar();
-            replaceFragment(fsb);
+//            fragment_search_bar fsb = new fragment_search_bar();
+//            replaceFragment(fsb);
+
+            Intent myIntent = new Intent(getActivity(), SearchActivity.class);
+//            myIntent.putExtra("personid", personId); //Optional parameters
+            getActivity().startActivity(myIntent);
+
         });
         return root;
     }

@@ -24,8 +24,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
+            android:focusable="true"
             app:iconifiedByDefault="false"
-            app:queryHint="Search here"/>
+            android:focusableInTouchMode="true"
+            app:queryHint="Search here">
+
+            <requestFocus/>
+        </androidx.appcompat.widget.SearchView>
     </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView

@@ -1,37 +1,20 @@
-package com.wrydhub.wryd.wrydapp.ui;
-
-import android.os.Bundle;
+package com.wrydhub.wryd.wrydapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
+import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 
-import com.wrydhub.wryd.wrydapp.R;
 import com.wrydhub.wryd.wrydapp.models.User;
+import com.wrydhub.wryd.wrydapp.ui.FruitAdapter;
+import com.wrydhub.wryd.wrydapp.ui.ModelClass;
 
 import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link fragment_search_bar#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class fragment_search_bar extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class SearchActivity extends AppCompatActivity {
 
 
 
@@ -58,63 +41,18 @@ public class fragment_search_bar extends Fragment {
 
 
 
-    public fragment_search_bar() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment fragment_search_bar.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static fragment_search_bar newInstance(String param1, String param2) {
-        fragment_search_bar fragment = new fragment_search_bar();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+        setContentView(R.layout.activity_search);
 
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
-    }
-    @Override
-    public void onStop() {
-        super.onStop();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
-    }
+        getSupportActionBar().hide();
 
 
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
-        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_search_bar,container,false);
-
-
-
-
-        recyclerView=root.findViewById(R.id.recyclerView_searchPage);
-        searchVieww=root.findViewById(R.id.searchView);
+        recyclerView=findViewById(R.id.recyclerView_searchPage);
+        searchVieww=findViewById(R.id.searchView);
 
         recyclerView.setVisibility(View.INVISIBLE);
         for (int i=0;i<fruitList.length;i++){
@@ -126,10 +64,10 @@ public class fragment_search_bar extends Fragment {
             arrayList.add(modelClass);
         }
 
-        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
+        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        FruitAdapter fruitAdapter = new FruitAdapter(getContext(),arrayList);
+        FruitAdapter fruitAdapter = new FruitAdapter(this,arrayList);
         recyclerView.setAdapter(fruitAdapter);
 
         searchVieww.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -150,19 +88,19 @@ public class fragment_search_bar extends Fragment {
                         }
                     }
 
-                    RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
+                    RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getApplicationContext());
                     recyclerView.setLayoutManager(layoutManager);
 
-                    FruitAdapter fruitAdapter = new FruitAdapter(getContext(),searchList);
+                    FruitAdapter fruitAdapter = new FruitAdapter(getApplicationContext(),searchList);
                     recyclerView.setAdapter(fruitAdapter);
                 }
 
                 else{
                     recyclerView.setVisibility(View.VISIBLE);
-                    RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
+                    RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getApplicationContext());
                     recyclerView.setLayoutManager(layoutManager);
 
-                    FruitAdapter fruitAdapter = new FruitAdapter(getContext(),arrayList);
+                    FruitAdapter fruitAdapter = new FruitAdapter(getApplicationContext(),arrayList);
                     recyclerView.setAdapter(fruitAdapter);
 
                 }
@@ -186,26 +124,25 @@ public class fragment_search_bar extends Fragment {
                         }
                     }
 
-                    RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
+                    RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getApplicationContext());
                     recyclerView.setLayoutManager(layoutManager);
 
-                    FruitAdapter fruitAdapter = new FruitAdapter(getContext(),searchList);
+                    FruitAdapter fruitAdapter = new FruitAdapter(getApplicationContext(),searchList);
                     recyclerView.setAdapter(fruitAdapter);
                 }
 
                 else{
                     recyclerView.setVisibility(View.VISIBLE);
 
-                    RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
+                    RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getApplicationContext());
                     recyclerView.setLayoutManager(layoutManager);
 
-                    FruitAdapter fruitAdapter = new FruitAdapter(getContext(),arrayList);
+                    FruitAdapter fruitAdapter = new FruitAdapter(getApplicationContext(),arrayList);
                     recyclerView.setAdapter(fruitAdapter);
 
                 }
                 return false;
             }
         });
-        return root;
     }
 }
