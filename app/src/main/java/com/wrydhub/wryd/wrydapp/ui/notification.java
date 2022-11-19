@@ -3,8 +3,10 @@ package com.wrydhub.wryd.wrydapp.ui;
 import static android.content.ContentValues.TAG;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -181,6 +183,7 @@ public class notification extends Fragment {
 
         lv.setAdapter(listAdapter);
         lv.setClickable(true);
+        lv.setLongClickable(true);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -194,6 +197,37 @@ public class notification extends Fragment {
 
                 Log.d(TAG, "onItemClick: Notification Item Clicked");
 
+            }
+        });
+        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+                                           int pos, long id) {
+                // TODO Auto-generated method stub
+
+                Log.v("long clicked","pos: " + pos);
+
+                new AlertDialog.Builder(getContext())
+                        .setTitle("Delete Notification")
+                        .setMessage("Are you sure you want to delete this Notification?")
+
+                        // Specifying a listener allows you to take an action before dismissing the dialog.
+                        // The dialog is automatically dismissed when a dialog button is clicked.
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Continue with delete operation
+                            }
+                        })
+
+                        // A null listener allows the button to dismiss the dialog and take no further action.
+                        .setNegativeButton(android.R.string.no, null)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+
+
+
+
+                return true;
             }
         });
 
