@@ -263,7 +263,7 @@ public class home extends Fragment {
                             JSONObject pred = dev.getJSONObject("prediction");
                             String loc = pred.getString("location");
                             String probab = pred.getString("probability");
-                            String lst_seen = lastSeen.func(sensTime);
+                            String lst_seen = lastSeen.func(sensTime,0);
                             long lastSeenTime = Long.parseLong(sensTime);
                             User us = new User(
                                     devName,

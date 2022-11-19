@@ -6,7 +6,13 @@ public class lastSeen {
 //        System.out.println(ans);
 //    }
 
-    public static String func(String givenTime)
+
+    /*
+
+    calledFrom = 0 -> Home Page
+    calledFrom = 1 -> Notification Page
+     */
+    public static String func(String givenTime,int calledFrom)
     {
         // givenTime = 1667499412062
         long given = Long.parseLong(givenTime);
@@ -17,7 +23,11 @@ public class lastSeen {
         String ans;
         if(diff <= 60)
         {
-            ans = "online";
+            ans=" ";
+            if(calledFrom==0)
+                ans = "online";
+            else if(calledFrom==1)
+                ans = "just now";
             return ans;
         }
         else if(diff > 60 && diff <= 3600)

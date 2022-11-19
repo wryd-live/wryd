@@ -303,7 +303,7 @@ public class notification extends Fragment {
                                 long epoTime = instTime.toEpochMilli();
                                 sensTime = Long.toString(epoTime);
                             }
-                            String lst_seen = lastSeen.func(sensTime);
+                            String lst_seen = lastSeen.func(sensTime,1);
                             long lastSeenTime = Long.parseLong(sensTime);
 
                             String notificationMessage;
