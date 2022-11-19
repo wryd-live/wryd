@@ -40,6 +40,8 @@ public class ProfileView extends AppCompatActivity {
     ProgressDialog progress;
 
 
+    int personId;
+
     ImageView profileImgView;
     TextView userNameTxtView;
     TextView emailTxtView;
@@ -47,6 +49,7 @@ public class ProfileView extends AppCompatActivity {
 
 
     LinearLayout acc_rej_group;
+    LinearLayout profileViewPanel;
     Button accept_req_btn;
     Button reject_req_btn;
 
@@ -88,16 +91,9 @@ public class ProfileView extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        int personId = intent.getIntExtra("personid",-1);
+        personId = intent.getIntExtra("personid",-1);
 
-        progress = new ProgressDialog(this);
-        progress.setTitle("Loading");
-        progress.setMessage("Fetching data from server....");
-        progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
-        progress.show();
-
-
-
+        profileViewPanel = findViewById(R.id.profileViewPanel);
 
         profileImgView =  findViewById(R.id.profileImageView);
         userNameTxtView =  findViewById(R.id.userNameTextView);
@@ -114,6 +110,41 @@ public class ProfileView extends AppCompatActivity {
         cancel_req_btn = findViewById(R.id.cancel_request_button);
         unfriend_button = findViewById(R.id.un_friend_button);
 
+
+
+        accept_req_btn.setOnClickListener(view -> {
+            String url = keysConfig.wrydServerURL + "/api/profile/request/accept/" + personId;
+
+            requestAPICall(url);
+        });
+
+        reject_req_btn.setOnClickListener(view -> {
+            String url = keysConfig.wrydServerURL + "/api/profile/request/reject/" + personId;
+
+            requestAPICall(url);
+
+        });
+
+        send_req_btn.setOnClickListener(view -> {
+            String url = keysConfig.wrydServerURL + "/api/profile/request/send/" + personId;
+            requestAPICall(url);
+
+        });
+
+        cancel_req_btn.setOnClickListener(view -> {
+            Log.d(TAG, "onCreate: Clicked Unfriend");
+
+            String url = keysConfig.wrydServerURL + "/api/profile/request/cancel/" + personId;
+            requestAPICall(url);
+
+        });
+
+        unfriend_button.setOnClickListener(view -> {
+            Log.d(TAG, "onCreate: Clicked Unfriend");
+
+            String url = keysConfig.wrydServerURL + "/api/profile/unfriend/" + personId;
+            requestAPICall(url);
+        });
 
 
         getUserViewDetails(personId);
@@ -134,6 +165,7 @@ public class ProfileView extends AppCompatActivity {
 
     void getUserViewDetails(int profileId)
     {
+        showLoading();
         OkHttpClient client = new OkHttpClient();
         String url = keysConfig.wrydServerURL + "/api/profile/view/" + profileId;
         System.out.println("my url ===== "+url);
@@ -148,7 +180,7 @@ public class ProfileView extends AppCompatActivity {
                 e.printStackTrace();
 
                 runOnUiThread(() -> {
-                    progress.dismiss();
+                    stopLoading();
 //                    stopShimmer();
                     Toast.makeText(getApplicationContext(), "Unable To Delete Notification", Toast.LENGTH_SHORT).show();
                 });
@@ -178,7 +210,7 @@ public class ProfileView extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                progress.dismiss();
+                                stopLoading();
 //                                    stopShimmer();
 
 
@@ -227,7 +259,7 @@ public class ProfileView extends AppCompatActivity {
                     else
                     {
                         runOnUiThread(() -> {
-                            progress.dismiss();
+                            stopLoading();
     //                        stopShimmer();
                             try {
                                 Toast.makeText(getApplicationContext(), "Error Retrieving Profile" + response.body().string(), Toast.LENGTH_SHORT).show();
@@ -240,7 +272,7 @@ public class ProfileView extends AppCompatActivity {
                 catch (Exception e)
                 {
                     runOnUiThread(() -> {
-                        progress.dismiss();
+                        stopLoading();
                         //                        stopShimmer();
                         try {
                             Toast.makeText(getApplicationContext(), "Error" + response.body().string(), Toast.LENGTH_SHORT).show();
@@ -280,5 +312,86 @@ public class ProfileView extends AppCompatActivity {
         {
             unfriend_button.setVisibility(View.VISIBLE);
         }
+    }
+
+
+    void showLoading()
+    {
+        profileViewPanel.setVisibility(View.INVISIBLE);
+        progress = new ProgressDialog(this);
+        progress.setTitle("Loading");
+        progress.setMessage("Fetching data from server....");
+        progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
+        progress.show();
+    }
+
+    void stopLoading()
+    {
+        progress.hide();
+        profileViewPanel.setVisibility(View.VISIBLE);
+    }
+
+
+    void requestAPICall(String url)
+    {
+        showLoading();
+
+        OkHttpClient client = new OkHttpClient();
+//        String url = keysConfig.wrydServerURL + "/api/profile/accept/" + personId;
+        System.out.println("my url ===== "+url);
+        Request request = new Request.Builder()
+                .url(url)
+                .addHeader("Authorization","Bearer "+savedToken)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+
+                runOnUiThread(() -> {
+                    stopLoading();
+//                    stopShimmer();
+                    Toast.makeText(getApplicationContext(), "Unable To Accept Request", Toast.LENGTH_SHORT).show();
+                });
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+                try {
+                    if(response.isSuccessful())
+                    {
+                        Log.d(TAG, "=================================");
+
+                        String result = response.body().string();
+                        Log.d(TAG, "onResponse: "+result);
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                stopLoading();
+
+                                getUserViewDetails(personId);
+//                                    stopShimmer();
+                            }
+                        });
+                    }
+                }
+                catch (Exception e)
+                {
+                    runOnUiThread(() -> {
+                        stopLoading();
+                        try {
+                            Toast.makeText(getApplicationContext(), "Error" + response.body().string(), Toast.LENGTH_SHORT).show();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    });
+                }
+            }
+        });
+
     }
 }
