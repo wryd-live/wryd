@@ -92,10 +92,9 @@ public class profile extends Fragment {
                              Bundle savedInstanceState) {
 
 
-//        ViewGroup root =  inflater.inflate(R.layout.fragment_profile, container, false);
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_profile,container,false);
-//        bottomsheet = root.findViewById(R.id.button7);
 
+        
         CircleImageView chngImgBtn = root.findViewById(R.id.change_image_button);
         chngImgBtn.setOnClickListener(view -> {
 
@@ -103,12 +102,6 @@ public class profile extends Fragment {
 
 
         });
-
-
-//        bottomsheet.setOnClickListener(view -> {
-//
-//        });
-        // Inflate the layout for this fragment
 
 
 
