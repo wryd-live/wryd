@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.wrydhub.wryd.wrydapp.Login;
 import com.wrydhub.wryd.wrydapp.MainActivity;
+import com.wrydhub.wryd.wrydapp.ProfileView;
 import com.wrydhub.wryd.wrydapp.adapters.NotificationListAdapter;
 import com.wrydhub.wryd.wrydapp.R;
 import com.wrydhub.wryd.wrydapp.models.User;
@@ -200,6 +201,9 @@ public class notification extends Fragment {
 //                i.putExtra("country",country[position]);
 //                i.putExtra("imageid",imageId[position]);
 //                startActivity(i);
+                Intent myIntent = new Intent(getActivity(), ProfileView.class);
+//                myIntent.putExtra("key", value); //Optional parameters
+                getActivity().startActivity(myIntent);
 
                 Log.d(TAG, "onItemClick: Notification Item Clicked");
 
