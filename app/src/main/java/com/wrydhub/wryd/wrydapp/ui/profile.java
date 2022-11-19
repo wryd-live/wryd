@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -100,6 +101,14 @@ public class profile extends Fragment {
                 showDialog();
 
             }
+        });
+
+
+        Button logoutButton = root.findViewById(R.id.logoutButton);
+        logoutButton.setOnClickListener(view -> {
+            SharedPreferences settings = getContext().getSharedPreferences("login", getContext().MODE_PRIVATE);
+            settings.edit().clear().commit();
+            getActivity().finishAndRemoveTask();
         });
         // Inflate the layout for this fragment
         return root;

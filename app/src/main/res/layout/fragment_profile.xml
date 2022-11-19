@@ -121,7 +121,7 @@
                         android:textStyle="bold" />
 
                     <Button
-                        android:id="@+id/button2"
+                        android:id="@+id/logoutButton"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:layout_marginTop="10dp"
@@ -133,7 +133,7 @@
                         android:drawablePadding="20dp"
                         android:elevation="3dp"
                         android:paddingStart="20dp"
-                        android:text="Logut"
+                        android:text="Logout"
                         android:textAlignment="center"
                         android:textSize="18sp"
                         android:textStyle="bold" />
