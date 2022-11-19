@@ -1,21 +1,27 @@
 package com.wrydhub.wryd.wrydapp.ui;
 //package com.example.bottomsheetlayout;
 //
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import android.app.Dialog;
@@ -34,8 +40,22 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.wrydhub.wryd.wrydapp.MainActivity;
 import com.wrydhub.wryd.wrydapp.R;
+import com.wrydhub.wryd.wrydapp.utils.keysConfig;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.Objects;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,13 +66,27 @@ public class profile extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_PARAM1 = "userid";
+    private static final String ARG_PARAM2 = "orgUsername";
+    private static final String ARG_PARAM3 = "token";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private String savedUserid;
+    private String savedOrgUsername;
+    private String savedUserToken;
+
+
     Button bottomsheet;
+
+    ProgressDialog progress;
+
+
+    ImageView profileImageView;
+    TextView nameTextView;
+    TextView emailTextView;
+
+
+
     public profile() {
         // Required empty public constructor
     }
@@ -81,8 +115,9 @@ public class profile extends Fragment {
 
 
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            savedUserid = getArguments().getString(ARG_PARAM1);
+            savedOrgUsername = getArguments().getString(ARG_PARAM2);
+            savedUserToken = getArguments().getString(ARG_PARAM3);
         }
     }
 
@@ -93,6 +128,16 @@ public class profile extends Fragment {
 
 //        ViewGroup root =  inflater.inflate(R.layout.fragment_profile, container, false);
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_profile,container,false);
+
+
+
+        profileImageView = root.findViewById(R.id.profileImageView);
+        nameTextView = root.findViewById(R.id.userNameTextView);
+        emailTextView = root.findViewById(R.id.emailTextView);
+
+
+
+
         bottomsheet = root.findViewById(R.id.button7);
         bottomsheet.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,6 +156,11 @@ public class profile extends Fragment {
             getActivity().finishAndRemoveTask();
         });
         // Inflate the layout for this fragment
+
+
+
+        getUserViewDetails();
+
         return root;
     }
 
@@ -150,4 +200,110 @@ public class profile extends Fragment {
         dialog.getWindow().setGravity(Gravity.BOTTOM);
 
     }
+
+
+    void showLoading()
+    {
+        progress = new ProgressDialog(getContext());
+        progress.setTitle("Loading");
+        progress.setMessage("Fetching profile data from server....");
+        progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
+        progress.show();
+    }
+
+    void stopLoading()
+    {
+        progress.hide();
+    }
+
+
+    void getUserViewDetails()
+    {
+        showLoading();
+        OkHttpClient client = new OkHttpClient();
+        String url = keysConfig.wrydServerURL + "/api/user/view";
+        System.out.println("my url ===== "+url);
+        Request request = new Request.Builder()
+                .url(url)
+                .addHeader("Authorization","Bearer "+savedUserToken)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+
+                getActivity().runOnUiThread(() -> {
+                    stopLoading();
+//                    stopShimmer();
+                    Toast.makeText(getContext(), "Unable To Retrieve Profile", Toast.LENGTH_SHORT).show();
+                });
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+                try {
+                    if(response.isSuccessful())
+                    {
+                        Log.d(TAG, "=================================");
+
+                        String result = response.body().string();
+                        Log.d(TAG, "onResponse: "+result);
+
+
+                        JSONArray myResultArray = new JSONArray(result);
+                        JSONObject res = myResultArray.getJSONObject(0);
+
+
+                        String myName =  res.getString("name");
+                        String imgUrl = res.getString("imageurl");
+
+
+
+
+//                        String person_email = res.getString("person_email");
+//                        boolean isFriend = Boolean.parseBoolean(res.getString("friend"));
+//                        boolean isRequest = Boolean.parseBoolean(res.getString("request"));
+//                        String requestType = res.getString("request-type");
+
+
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                stopLoading();
+//                                    stopShimmer();
+
+                                String myImgUrl = "https://api.multiavatar.com/"+ myName +".png";
+                                nameTextView.setText(myName);
+                                emailTextView.setText("abcd@gmail.com");
+
+                                Glide
+                                    .with(getContext())
+                                    .load(myImgUrl)
+                                    .into(profileImageView);
+
+
+                            }
+                        });
+                    }
+                }
+                catch (Exception e)
+                {
+                    getActivity().runOnUiThread(() -> {
+                        stopLoading();
+                        //                        stopShimmer();
+                        try {
+                            Toast.makeText(getContext(), "Error" + response.body().string(), Toast.LENGTH_SHORT).show();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+
 }
