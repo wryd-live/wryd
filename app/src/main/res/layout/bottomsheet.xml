@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@drawable/dialog_bg">
 
     <TextView
         android:id="@+id/choosetxt"
@@ -11,9 +12,10 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:text="Choose"
-        android:textColor="@color/black"
+        android:textColor="#8102b7"
         android:layout_marginTop="5dp"
         android:textSize="25dp"
+        android:height="50dp"
         android:textStyle="bold"/>
 
     <LinearLayout
@@ -31,7 +33,11 @@
             android:layout_height="wrap_content"
             android:text="Remove"
             android:layout_marginLeft="30dp"
-            android:textSize="16sp"/>
+            android:height="50dp"
+            android:textColor="@color/black"
+            android:layout_marginTop="5dp"
+            android:textSize="20dp"
+            android:textStyle="bold"/>
 
     </LinearLayout>
 
@@ -50,7 +56,11 @@
             android:layout_height="wrap_content"
             android:text="Upload"
             android:layout_marginLeft="30dp"
-            android:textSize="16sp"/>
+            android:textColor="@color/black"
+            android:layout_marginTop="5dp"
+            android:height="50dp"
+            android:textSize="20dp"
+            android:textStyle="bold"/>
 
     </LinearLayout>
 

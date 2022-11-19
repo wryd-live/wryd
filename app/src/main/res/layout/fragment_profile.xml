@@ -39,6 +39,15 @@
                     app:layout_constraintTop_toBottomOf="@+id/imageView9"
                     app:srcCompat="@drawable/profile" />
 
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/change_image_button"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/camera_icon"
+                    app:layout_constraintEnd_toEndOf="@+id/imageView10"
+                    app:layout_constraintTop_toTopOf="@+id/imageView10"
+                    tools:ignore="RtlHardcoded" />
+
                 <TextView
                     android:id="@+id/userNameTextView"
                     android:layout_width="wrap_content"
@@ -128,34 +137,18 @@
                         android:layout_marginBottom="10dp"
                         android:background="@drawable/background_btn"
                         android:drawableEnd="@drawable/background_btn"
-                        android:paddingEnd="20dp"
-
                         android:drawablePadding="20dp"
                         android:elevation="3dp"
                         android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
                         android:text="Logout"
                         android:textAlignment="center"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
-                    <Button
-                        android:id="@+id/button7"
-                        android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:background="@drawable/background_btn"
-                        android:drawableEnd="@drawable/background_btn"
-                        android:drawablePadding="20dp"
 
-                        android:elevation="3dp"
-                        android:paddingStart="20dp"
-                        android:paddingEnd="20dp"
-                        android:text="change"
-                        android:textAlignment="center"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
                 </LinearLayout>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </ScrollView>

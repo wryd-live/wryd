@@ -26,6 +26,13 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+            <activity
+            android:name=".SearchActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".Login"
             android:exported="true">
@@ -35,7 +42,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
 
         <service
             android:name=".ScanService"

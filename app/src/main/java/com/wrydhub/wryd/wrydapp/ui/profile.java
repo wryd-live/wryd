@@ -57,6 +57,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link profile#newInstance} factory method to
@@ -126,7 +128,6 @@ public class profile extends Fragment {
                              Bundle savedInstanceState) {
 
 
-//        ViewGroup root =  inflater.inflate(R.layout.fragment_profile, container, false);
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_profile,container,false);
 
 
@@ -138,14 +139,11 @@ public class profile extends Fragment {
 
 
 
-        bottomsheet = root.findViewById(R.id.button7);
-        bottomsheet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        CircleImageView chngImgBtn = root.findViewById(R.id.change_image_button);
+        chngImgBtn.setOnClickListener(view -> {
 
-                showDialog();
+            showDialog();
 
-            }
         });
 
 
@@ -178,7 +176,7 @@ public class profile extends Fragment {
             public void onClick(View v) {
 
                 dialog.dismiss();
-                Toast.makeText(getContext(),"Edit is Clicked",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"Remove is Clicked",Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -188,7 +186,7 @@ public class profile extends Fragment {
             public void onClick(View v) {
 
                 dialog.dismiss();
-                Toast.makeText(getContext(),"Share is Clicked",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"Upload is Clicked",Toast.LENGTH_SHORT).show();
 
             }
         });
