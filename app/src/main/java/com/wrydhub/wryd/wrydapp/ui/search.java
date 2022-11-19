@@ -224,7 +224,8 @@ public class search extends Fragment {
 //            replaceFragment(fsb);
 
             Intent myIntent = new Intent(getActivity(), SearchActivity.class);
-//            myIntent.putExtra("personid", personId); //Optional parameters
+            myIntent.putExtra("savedUserid", savedUserid); //Optional parameters
+            myIntent.putExtra("savedToken", savedUserToken); //Optional parameters
             getActivity().startActivity(myIntent);
 
         });

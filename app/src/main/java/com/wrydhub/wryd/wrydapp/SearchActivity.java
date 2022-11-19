@@ -1,18 +1,36 @@
 package com.wrydhub.wryd.wrydapp;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.wrydhub.wryd.wrydapp.models.User;
 import com.wrydhub.wryd.wrydapp.ui.FruitAdapter;
 import com.wrydhub.wryd.wrydapp.ui.ModelClass;
+import com.wrydhub.wryd.wrydapp.utils.keysConfig;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -40,6 +58,8 @@ public class SearchActivity extends AppCompatActivity {
     ArrayList<User> userArrayList = new ArrayList<>();
 
 
+    String savedUserid;
+    String savedUserToken;
 
 
     @Override
@@ -49,6 +69,14 @@ public class SearchActivity extends AppCompatActivity {
 
 
         getSupportActionBar().hide();
+
+
+        Bundle b = getIntent().getExtras();
+
+        if(b != null) {
+            savedUserToken = b.getString("savedToken");
+            savedUserid = b.getString("savedUserid");
+        }
 
 
         recyclerView=findViewById(R.id.recyclerView_searchPage);
@@ -77,16 +105,8 @@ public class SearchActivity extends AppCompatActivity {
 
 //                String query;
                 if (query.length()>0){
-                    for (int i=0;i<arrayList.size();i++){
-                        recyclerView.setVisibility(View.VISIBLE);
-                        if(arrayList.get(i).getFruitName().toUpperCase().contains(query.toUpperCase())){
-                            ModelClass modelClass=new ModelClass();
-                            modelClass.setFruitName(arrayList.get(i).getFruitName());
-                            modelClass.setFruitNum(arrayList.get(i).getFruitNum());
-                            modelClass.setImg(arrayList.get(i).getImg());
-                            searchList.add(modelClass);
-                        }
-                    }
+
+                    searchList = getSearchAPI(query);
 
                     RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getApplicationContext());
                     recyclerView.setLayoutManager(layoutManager);
@@ -95,15 +115,6 @@ public class SearchActivity extends AppCompatActivity {
                     recyclerView.setAdapter(fruitAdapter);
                 }
 
-                else{
-                    recyclerView.setVisibility(View.VISIBLE);
-                    RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getApplicationContext());
-                    recyclerView.setLayoutManager(layoutManager);
-
-                    FruitAdapter fruitAdapter = new FruitAdapter(getApplicationContext(),arrayList);
-                    recyclerView.setAdapter(fruitAdapter);
-
-                }
                 return false;
             }
 
@@ -114,15 +125,8 @@ public class SearchActivity extends AppCompatActivity {
 //                String query;
                 if (newText.length()>0){
                     recyclerView.setVisibility(View.VISIBLE);
-                    for (int i=0;i<arrayList.size();i++){
-                        if(arrayList.get(i).getFruitName().toUpperCase().contains(newText.toUpperCase())){
-                            ModelClass modelClass=new ModelClass();
-                            modelClass.setFruitName(arrayList.get(i).getFruitName());
-                            modelClass.setFruitNum(arrayList.get(i).getFruitNum());
-                            modelClass.setImg(arrayList.get(i).getImg());
-                            searchList.add(modelClass);
-                        }
-                    }
+
+                    searchList = getSearchAPI(newText);
 
                     RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getApplicationContext());
                     recyclerView.setLayoutManager(layoutManager);
@@ -131,18 +135,87 @@ public class SearchActivity extends AppCompatActivity {
                     recyclerView.setAdapter(fruitAdapter);
                 }
 
-                else{
-                    recyclerView.setVisibility(View.VISIBLE);
-
-                    RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getApplicationContext());
-                    recyclerView.setLayoutManager(layoutManager);
-
-                    FruitAdapter fruitAdapter = new FruitAdapter(getApplicationContext(),arrayList);
-                    recyclerView.setAdapter(fruitAdapter);
-
-                }
                 return false;
             }
         });
+    }
+
+
+
+    ArrayList<ModelClass> getSearchAPI(String query)
+    {
+        ArrayList<ModelClass> fetchedUsers = new ArrayList<>();
+
+        try {
+
+        Thread mythr = new Thread(()->{
+
+            try {
+                OkHttpClient client = new OkHttpClient();
+                String url = keysConfig.wrydServerURL + "/api/search/" + query;
+                System.out.println("my url ===== " + url);
+                Request request = new Request.Builder()
+                        .url(url)
+                        .addHeader("Authorization", "Bearer " + savedUserToken)
+                        .build();
+
+
+                Response response = client.newCall(request).execute();
+
+                if (response.isSuccessful()) {
+                    Log.d(TAG, "=================================");
+
+                    String result = response.body().string();
+                    Log.d(TAG, "onResponse: " + result);
+
+                    JSONArray res = null;
+                    try {
+                        res = new JSONArray(result);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    for (int i = 0; i < res.length(); i++) {
+                        JSONObject myjs = res.getJSONObject(i);
+                        String pid = myjs.getString("id");
+                        String imgUrl = myjs.getString("imageurl");
+                        String person_name = myjs.getString("name");
+
+
+                        ModelClass modelClass = new ModelClass();
+                        modelClass.setFruitName(person_name);
+                        modelClass.setFruitNum(pid);
+                        modelClass.setImg(R.drawable.camera_icon);
+
+                        fetchedUsers.add(modelClass);
+                    }
+
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+//                                stopLoading();
+//                                    stopShimmer();
+                        }
+                    });
+
+
+                }
+            }catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        });
+
+
+        mythr.start();
+        mythr.join();
+        return fetchedUsers;
+
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
