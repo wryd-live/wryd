@@ -201,8 +201,11 @@ public class notification extends Fragment {
 //                i.putExtra("country",country[position]);
 //                i.putExtra("imageid",imageId[position]);
 //                startActivity(i);
+
+                int personId = userArrayList.get(position).personId;
+
                 Intent myIntent = new Intent(getActivity(), ProfileView.class);
-//                myIntent.putExtra("key", value); //Optional parameters
+                myIntent.putExtra("personid", personId); //Optional parameters
                 getActivity().startActivity(myIntent);
 
                 Log.d(TAG, "onItemClick: Notification Item Clicked");

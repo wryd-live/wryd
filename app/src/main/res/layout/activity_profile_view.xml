@@ -72,13 +72,13 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView15">
 
                     <LinearLayout
-                        android:id="@+id/acc_rej"
+                        android:id="@+id/acc_rej_group_btn"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal">
 
                         <Button
-                            android:id="@+id/button"
+                            android:id="@+id/accept_request_button"
                             android:layout_width="wrap_content"
                             android:layout_height="60dp"
                             android:layout_marginTop="10dp"
@@ -90,7 +90,7 @@
                             android:textStyle="bold" />
 
                         <Button
-                            android:id="@+id/button6"
+                            android:id="@+id/reject_request_button"
                             android:layout_width="wrap_content"
                             android:layout_height="60dp"
                             android:layout_marginLeft="10dp"
@@ -104,7 +104,7 @@
                     </LinearLayout>
 
                     <Button
-                        android:id="@+id/button9"
+                        android:id="@+id/send_request_button"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:layout_marginTop="10dp"
@@ -114,6 +114,37 @@
                         android:elevation="3dp"
                         android:paddingStart="0dp"
                         android:text="Send Request"
+                        android:textAlignment="center"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+
+                    <Button
+                        android:id="@+id/cance_request_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/background_btn"
+                        android:drawablePadding="20dp"
+                        android:elevation="3dp"
+                        android:paddingStart="0dp"
+                        android:text="Cancel Request"
+                        android:textAlignment="center"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/add_friend_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/background_btn"
+                        android:drawablePadding="20dp"
+                        android:elevation="3dp"
+                        android:paddingStart="0dp"
+                        android:text="Add Friend"
                         android:textAlignment="center"
                         android:textSize="18sp"
                         android:textStyle="bold" />
