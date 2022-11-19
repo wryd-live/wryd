@@ -2,6 +2,7 @@ package com.wrydhub.wryd.wrydapp.ui;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -19,15 +20,31 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 //import android.widget.SearchView;
 import androidx.appcompat.widget.SearchView;
 
+import com.wrydhub.wryd.wrydapp.ProfileView;
 import com.wrydhub.wryd.wrydapp.R;
 import com.wrydhub.wryd.wrydapp.SearchActivity;
 import com.wrydhub.wryd.wrydapp.adapters.HomeListAdapter;
 import com.wrydhub.wryd.wrydapp.models.User;
+import com.wrydhub.wryd.wrydapp.utils.keysConfig;
+import com.wrydhub.wryd.wrydapp.utils.lastSeen;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,12 +55,14 @@ public class search extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_PARAM1 = "userid";
+    private static final String ARG_PARAM2 = "orgUsername";
+    private static final String ARG_PARAM3 = "token";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private String savedUserid;
+    private String savedOrgUsername;
+    private String savedUserToken;
 
 //
     SearchView searchVieww;
@@ -66,8 +85,9 @@ public class search extends Fragment {
 
     ArrayList<User> userArrayList = new ArrayList<>();
 
+    HomeListAdapter listAdapter;
 
-
+    ProgressDialog progress;
 
 //    ListView myListView;
 //
@@ -101,8 +121,9 @@ public class search extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            savedUserid = getArguments().getString(ARG_PARAM1);
+            savedOrgUsername = getArguments().getString(ARG_PARAM2);
+            savedUserToken = getArguments().getString(ARG_PARAM3);
         }
     }
 
@@ -124,45 +145,45 @@ public class search extends Fragment {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_search,container,false);
 
 
-        int[] imageId = {R.drawable.facebook_avatar,
-                R.drawable.facebook_avatar,
-                R.drawable.facebook_avatar,
-                R.drawable.facebook_avatar,
-                R.drawable.facebook_avatar,
-                R.drawable.facebook_avatar,
-                R.drawable.facebook_avatar,
-                R.drawable.facebook_avatar,
-                R.drawable.facebook_avatar};
+//        int[] imageId = {R.drawable.facebook_avatar,
+//                R.drawable.facebook_avatar,
+//                R.drawable.facebook_avatar,
+//                R.drawable.facebook_avatar,
+//                R.drawable.facebook_avatar,
+//                R.drawable.facebook_avatar,
+//                R.drawable.facebook_avatar,
+//                R.drawable.facebook_avatar,
+//                R.drawable.facebook_avatar};
+//
+//        String[] name = {"Christopher","Craig","Sergio","Mubariz","Mike","Michael","Toa","Ivana","Alex"};
+//        String[] lastMessage = {"Heye","Supp","Let's Catchup","Dinner tonight?","Gotta go",
+//                "i'm in meeting","Gotcha","Let's Go","any Weekend Plans?"};
+//        String[] lastmsgTime = {"8:45 pm","9:00 am","7:34 pm","6:32 am","5:76 am",
+//                "5:00 am","7:34 pm","2:32 am","7:76 am"};
+//        String[] phoneNo = {"7656610000","9999043232","7834354323","9876543211","5434432343",
+//                "9439043232","7534354323","6545543211","7654432343"};
+//        String[] country = {"United States","Russia","India","Israel","Germany","Thailand","Canada","France","Switzerland"};
+//
+//
+//
+//        for(int i = 0;i< imageId.length;i++){
+//
+//            User user = new User(
+//                    name[i],
+//                    lastMessage[i],
+//                    lastmsgTime[i],
+//                    123456,
+//                    phoneNo[i],
+//                    country[i],
+//                    imageId[i]
+//            );
+//
+//            userArrayList.add(user);
+//
+//        }
 
-        String[] name = {"Christopher","Craig","Sergio","Mubariz","Mike","Michael","Toa","Ivana","Alex"};
-        String[] lastMessage = {"Heye","Supp","Let's Catchup","Dinner tonight?","Gotta go",
-                "i'm in meeting","Gotcha","Let's Go","any Weekend Plans?"};
-        String[] lastmsgTime = {"8:45 pm","9:00 am","7:34 pm","6:32 am","5:76 am",
-                "5:00 am","7:34 pm","2:32 am","7:76 am"};
-        String[] phoneNo = {"7656610000","9999043232","7834354323","9876543211","5434432343",
-                "9439043232","7534354323","6545543211","7654432343"};
-        String[] country = {"United States","Russia","India","Israel","Germany","Thailand","Canada","France","Switzerland"};
 
-
-
-        for(int i = 0;i< imageId.length;i++){
-
-            User user = new User(
-                    name[i],
-                    lastMessage[i],
-                    lastmsgTime[i],
-                    123456,
-                    phoneNo[i],
-                    country[i],
-                    imageId[i]
-            );
-
-            userArrayList.add(user);
-
-        }
-
-
-        HomeListAdapter listAdapter = new HomeListAdapter(root.getContext(), userArrayList);
+        listAdapter = new HomeListAdapter(root.getContext(), userArrayList);
         ListView lv = (ListView) root.findViewById(R.id.listview_search);
 
         lv.setAdapter(listAdapter);
@@ -179,6 +200,12 @@ public class search extends Fragment {
 //                startActivity(i);
 
                 Log.d(TAG, "onItemClick: ItemClicked");
+
+                int personId = userArrayList.get(position).personId;
+
+                Intent myIntent = new Intent(getActivity(), ProfileView.class);
+                myIntent.putExtra("personid", personId); //Optional parameters
+                getActivity().startActivity(myIntent);
 
             }
         });
@@ -201,15 +228,103 @@ public class search extends Fragment {
             getActivity().startActivity(myIntent);
 
         });
+
+
+
+        progress = new ProgressDialog(getActivity());
+        progress.setTitle("Loading");
+        progress.setMessage("Fetching notifications from server....");
+        progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
+
+
+        getFriendsData();
+
         return root;
     }
 
 
-    private void replaceFragment(Fragment fragment)
+    public void getFriendsData()
     {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container,fragment);
-        fragmentTransaction.commit();
+        progress.show();
+        OkHttpClient client = new OkHttpClient();
+        String url = keysConfig.wrydServerURL + "/api/profile/friends" ;
+        System.out.println("my url ===== "+url);
+        Request request = new Request.Builder()
+                .url(url)
+                .addHeader("Authorization","Bearer "+savedUserToken)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+
+                getActivity().runOnUiThread(() -> {
+                    progress.dismiss();
+//                    stopShimmer();
+                    Toast.makeText(getContext(), "Unable To Fetch Data", Toast.LENGTH_SHORT).show();
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(response.isSuccessful())
+                {
+                    Log.d(TAG, "=================================");
+
+                    String result = response.body().string();
+                    Log.d(TAG, "onResponse: "+result);
+
+                    try {
+                        JSONArray deviceData = new JSONArray(result);
+
+                        userArrayList.clear();
+                        for(int i=0;i<deviceData.length();i++)
+                        {
+                            JSONObject dev = deviceData.getJSONObject(i);
+                            String devName = dev.getString("person_name");
+                            int devId = Integer.parseInt(dev.getString("person_id"));
+                            String imgUrl = dev.getString("imageurl");
+                            String personEmail = dev.getString("person_email");
+
+
+                            User user = new User(
+                                    devName,
+                                    personEmail,
+                                    "",
+                                    123456789,
+                                    "8433076726",
+                                    "india",
+                                    R.drawable.facebook_avatar);
+
+                            user.setImageUrl("https://api.multiavatar.com/"+ devName +".png");
+                            user.setPersonId(devId);
+                            userArrayList.add(user);
+                        }
+
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                listAdapter.notifyDataSetChanged();
+                                progress.dismiss();
+//                                stopShimmer();
+
+                            }
+                        });
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+
+                        getActivity().runOnUiThread(() -> {
+                            progress.dismiss();
+//                            stopShimmer();
+
+                            Toast.makeText(getContext(), "Error Parsing Data", Toast.LENGTH_SHORT).show();
+                        });
+                    }
+
+                }
+            }
+        });
     }
 }
