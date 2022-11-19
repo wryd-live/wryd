@@ -137,7 +137,7 @@
 
 
                     <Button
-                        android:id="@+id/cance_request_button"
+                        android:id="@+id/cancel_request_button"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:layout_marginTop="10dp"
@@ -152,7 +152,7 @@
                         android:textStyle="bold" />
 
                     <Button
-                        android:id="@+id/add_friend_button"
+                        android:id="@+id/un_friend_button"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:layout_marginTop="10dp"
@@ -161,7 +161,7 @@
                         android:drawablePadding="20dp"
                         android:elevation="3dp"
                         android:paddingStart="0dp"
-                        android:text="Add Friend"
+                        android:text="Unfriend"
                         android:textAlignment="center"
                         android:textSize="18sp"
                         android:textStyle="bold" />

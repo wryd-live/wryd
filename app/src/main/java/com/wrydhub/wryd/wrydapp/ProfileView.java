@@ -11,11 +11,20 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.wrydhub.wryd.wrydapp.utils.keysConfig;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.util.Objects;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -29,6 +38,24 @@ public class ProfileView extends AppCompatActivity {
     String savedToken;
 
     ProgressDialog progress;
+
+
+    ImageView profileImgView;
+    TextView userNameTxtView;
+    TextView emailTxtView;
+    TextView orgTxtView;
+
+
+    LinearLayout acc_rej_group;
+    Button accept_req_btn;
+    Button reject_req_btn;
+
+
+    Button send_req_btn ;
+    Button cancel_req_btn;
+    Button unfriend_button;
+
+
 
 
     @Override
@@ -68,6 +95,26 @@ public class ProfileView extends AppCompatActivity {
         progress.setMessage("Fetching data from server....");
         progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
         progress.show();
+
+
+
+
+        profileImgView =  findViewById(R.id.profileImageView);
+        userNameTxtView =  findViewById(R.id.userNameTextView);
+        emailTxtView = findViewById(R.id.emailTextView);
+        orgTxtView = findViewById(R.id.organizationTextView);
+
+
+        acc_rej_group = findViewById(R.id.acc_rej_group_btn);
+        accept_req_btn =  findViewById(R.id.accept_request_button);
+        reject_req_btn = findViewById(R.id.reject_request_button);
+
+
+        send_req_btn = findViewById(R.id.send_request_button);
+        cancel_req_btn = findViewById(R.id.cancel_request_button);
+        unfriend_button = findViewById(R.id.un_friend_button);
+
+
 
         getUserViewDetails(personId);
 
@@ -110,38 +157,128 @@ public class ProfileView extends AppCompatActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if(response.isSuccessful())
-                {
-                    Log.d(TAG, "=================================");
 
-                    String result = response.body().string();
-                    Log.d(TAG, "onResponse: "+result);
+                try {
+                    if(response.isSuccessful())
+                    {
+                        Log.d(TAG, "=================================");
+
+                        String result = response.body().string();
+                        Log.d(TAG, "onResponse: "+result);
+
+                        JSONObject res = new JSONObject(result);
+                        String pName =  res.getString("person_name");
+                        String imgUrl = res.getString("imageurl");
+                        String person_email = res.getString("person_email");
+                        boolean isFriend = Boolean.parseBoolean(res.getString("friend"));
+                        boolean isRequest = Boolean.parseBoolean(res.getString("request"));
+                        String requestType = res.getString("request-type");
 
 
-
-
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
                                 progress.dismiss();
-//                                stopShimmer();
+//                                    stopShimmer();
 
-                        }
-                    });
+
+                                //Updating Person Profile
+                                userNameTxtView.setText(pName);
+                                emailTxtView.setText(person_email);
+                                orgTxtView.setText("Organization");
+
+                                String myImgUrl = "https://api.multiavatar.com/"+ pName +".png";
+                                Glide
+                                    .with(getApplicationContext())
+                                    .load(myImgUrl)
+                                    .into(profileImgView);
+
+                                if(isFriend)
+                                {
+                                    //Show Unfriend
+                                    showRequestButtons(3);
+                                }
+                                else
+                                {
+                                    if(isRequest)
+                                    {
+                                        if(Objects.equals(requestType, "incoming"))
+                                        {
+                                            //Person Has Sent you a request
+                                            showRequestButtons(0);
+                                        }
+                                        else
+                                        {
+                                            //Show Cancel Request
+                                            showRequestButtons(2);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        //Show SendRequest
+                                        showRequestButtons(1);
+                                    }
+                                }
+
+
+                            }
+                        });
+                    }
+                    else
+                    {
+                        runOnUiThread(() -> {
+                            progress.dismiss();
+    //                        stopShimmer();
+                            try {
+                                Toast.makeText(getApplicationContext(), "Error Retrieving Profile" + response.body().string(), Toast.LENGTH_SHORT).show();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        });
+                    }
                 }
-                else
+                catch (Exception e)
                 {
                     runOnUiThread(() -> {
                         progress.dismiss();
-//                        stopShimmer();
+                        //                        stopShimmer();
                         try {
-                            Toast.makeText(getApplicationContext(), "Error Dismissing Notification" + response.body().string(), Toast.LENGTH_SHORT).show();
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                            Toast.makeText(getApplicationContext(), "Error" + response.body().string(), Toast.LENGTH_SHORT).show();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
                         }
                     });
                 }
             }
         });
+    }
+
+
+
+    void showRequestButtons(int n)
+    {
+        //0,1,2,3
+        acc_rej_group.setVisibility(View.GONE);
+        send_req_btn.setVisibility(View.GONE);
+        cancel_req_btn.setVisibility(View.GONE);
+        unfriend_button.setVisibility(View.GONE);
+
+
+        if(n==0)
+        {
+            acc_rej_group.setVisibility(View.VISIBLE);
+        }
+        else if(n==1)
+        {
+            send_req_btn.setVisibility(View.VISIBLE);
+        }
+        else if(n==2)
+        {
+            cancel_req_btn.setVisibility(View.VISIBLE);
+        }
+        else if(n==3)
+        {
+            unfriend_button.setVisibility(View.VISIBLE);
+        }
     }
 }
