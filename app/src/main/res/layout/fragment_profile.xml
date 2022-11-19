@@ -43,9 +43,11 @@
                     android:id="@+id/change_image_button"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginTop="5dp"
                     android:src="@drawable/camera_icon"
-                    app:layout_constraintEnd_toEndOf="@+id/imageView10"
-                    app:layout_constraintTop_toTopOf="@+id/imageView10"
+                    app:layout_constraintEnd_toEndOf="@+id/profileImageView"
+                    app:layout_constraintTop_toTopOf="@+id/profileImageView"
                     tools:ignore="RtlHardcoded" />
 
                 <TextView
