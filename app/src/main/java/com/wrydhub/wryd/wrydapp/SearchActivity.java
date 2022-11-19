@@ -180,6 +180,7 @@ public class SearchActivity extends AppCompatActivity {
                         modelClass.setFruitNum(pid);
                         modelClass.setImg(R.drawable.camera_icon);
                         modelClass.setPersonId(Integer.parseInt(pid));
+                        modelClass.setImgUrl("https://api.multiavatar.com/"+ person_name +".png");
 
                         fetchedUsers.add(modelClass);
                     }

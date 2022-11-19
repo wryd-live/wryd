@@ -4,6 +4,7 @@ public class ModelClass {
     String fruitName,fruitNum;
     int img;
     int personId;
+    String imgUrl;
 
     public String getFruitName() {
         return fruitName;
@@ -31,5 +32,9 @@ public class ModelClass {
 
     public void setPersonId(int personId) {
         this.personId = personId;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 }

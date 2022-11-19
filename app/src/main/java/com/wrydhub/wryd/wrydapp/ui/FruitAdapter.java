@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.wrydhub.wryd.wrydapp.ProfileView;
 import com.wrydhub.wryd.wrydapp.R;
 
@@ -44,8 +45,16 @@ public class FruitAdapter extends RecyclerView.Adapter<FruitAdapter.Myholder>{
     public void onBindViewHolder(@NonNull Myholder holder, int position) {
         holder.fruitName.setText(arrayList.get(position).getFruitName());
         holder.fruitNum.setText(arrayList.get(position).getFruitNum());
-        holder.img.setImageResource(arrayList.get(position).getImg());
+//        holder.img.setImageResource(arrayList.get(position).getImg());
+
         holder.personId = arrayList.get(position).personId;
+
+        String myImgUrl = arrayList.get(position).imgUrl;
+
+        Glide
+            .with(holder.itemView.getContext())
+            .load(myImgUrl)
+            .into(holder.img);
     }
 
     @Override
