@@ -18,14 +18,11 @@ import com.wrydhub.wryd.wrydapp.utils.keysConfig;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -193,8 +190,8 @@ public class Login extends AppCompatActivity {
 
             Log.d(TAG, "onClick: Button Clicked");
 
-            EditText et = findViewById(R.id.emailInputLogin);
-            EditText pt = findViewById(R.id.passwordInputLogin);
+            EditText et = findViewById(R.id.personNameSignUp);
+            EditText pt = findViewById(R.id.passwordInputSignup);
 
             String inpEmail = et.getText().toString();
             String inpPass = pt.getText().toString();
@@ -327,6 +324,11 @@ public class Login extends AppCompatActivity {
 
         registerTxtView.setOnClickListener(view -> {
             System.out.println("Register Text View Clicked");
+
+            Intent intent = new Intent(Login.this,SignUp.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
         });
 
 

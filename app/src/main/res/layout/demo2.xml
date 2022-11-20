@@ -25,7 +25,7 @@
         android:layout_marginBottom="80dp"
         android:text="No Organization Selected"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/emailInputLogin"
+        app:layout_constraintBottom_toTopOf="@+id/personNameSignUp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
@@ -44,7 +44,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/emailInputLogin"
+        android:id="@+id/personNameSignUp"
         android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -68,7 +68,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordInputLogin"
+        app:layout_constraintTop_toBottomOf="@+id/passwordInputSignup"
         app:layout_constraintVertical_bias="0.49"
         style="@android:style/Widget.Button"
         android:layout_width="match_parent"
@@ -83,11 +83,11 @@
         android:layout_marginTop="32dp"/>
 
     <EditText
-        android:id="@+id/passwordInputLogin"
+        android:id="@+id/passwordInputSignup"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailInputLogin"
+        app:layout_constraintTop_toBottomOf="@+id/personNameSignUp"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:ems="10"
@@ -110,7 +110,7 @@
         app:layout_constraintBottom_toTopOf="@+id/loginbuttonLogin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordInputLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/passwordInputSignup" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
