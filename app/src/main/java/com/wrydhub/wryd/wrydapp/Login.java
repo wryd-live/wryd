@@ -20,6 +20,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -298,8 +299,35 @@ public class Login extends AppCompatActivity {
                             }
                             else
                             {
+                                JSONObject ResponseJson = new JSONObject(responseBodyString);
+
+                                String responseCode = ResponseJson.getString("code");
+                                String responseMsg = ResponseJson.getString("msg");
+
+
                                 runOnUiThread(() -> {
-                                    Toast.makeText(getApplicationContext(), "Invalid Email/Password", Toast.LENGTH_SHORT).show();
+
+                                    if(responseCode.equals("1003"))
+                                    {
+                                        new AlertDialog.Builder(this)
+                                                .setTitle("Verify Email WRYD")
+                                                .setMessage("Please verify your email account. Check your inbox and verify account to continue")
+
+                                                // Specifying a listener allows you to take an action before dismissing the dialog.
+                                                // The dialog is automatically dismissed when a dialog button is clicked.
+                                                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        // Continue with positive operation
+                                                    }
+                                                })
+                                                // A null listener allows the button to dismiss the dialog and take no further action.
+                                                .setIcon(android.R.drawable.ic_dialog_info)
+                                                .show();
+                                    }
+                                    else
+                                    {
+                                        Toast.makeText(getApplicationContext(), "Invalid Email/Password", Toast.LENGTH_SHORT).show();
+                                    }
                                 });
                             }
 
