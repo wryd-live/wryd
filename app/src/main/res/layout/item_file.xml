@@ -44,7 +44,7 @@
             android:layout_below="@+id/txt"
             android:singleLine="true"
             android:text="Fruit Number"
-            android:textColor="@color/black"
+            android:textColor="@color/dim_gray"
             android:textSize="15dp"/>
 
 
