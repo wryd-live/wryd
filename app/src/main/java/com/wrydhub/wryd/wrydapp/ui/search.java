@@ -234,7 +234,7 @@ public class search extends Fragment {
 
         progress = new ProgressDialog(getActivity());
         progress.setTitle("Loading");
-        progress.setMessage("Fetching notifications from server....");
+        progress.setMessage("Fetching friend list from server....");
         progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
 
 
