@@ -101,8 +101,8 @@ public class SignUp extends AppCompatActivity {
 
             // setup the alert builder
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Choose an animal");// add a radio button list
-            int checkedItem = 0; // cow
+            builder.setTitle("Choose an organization");// add a radio button list
+            int checkedItem = -1; // cow
             builder.setSingleChoiceItems(organizationStringNames, checkedItem, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
