@@ -173,11 +173,12 @@ public class SearchActivity extends AppCompatActivity {
                         String pid = myjs.getString("id");
                         String imgUrl = myjs.getString("imageurl");
                         String person_name = myjs.getString("name");
+                        String person_email = myjs.getString("email");
 
 
                         ModelClass modelClass = new ModelClass();
                         modelClass.setFruitName(person_name);
-                        modelClass.setFruitNum(pid);
+                        modelClass.setFruitNum(person_email);
                         modelClass.setImg(R.drawable.camera_icon);
                         modelClass.setPersonId(Integer.parseInt(pid));
                         modelClass.setImgUrl("https://api.multiavatar.com/"+ person_name +".png");

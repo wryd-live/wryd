@@ -257,6 +257,7 @@ public class profile extends Fragment {
 
                         String myName =  res.getString("name");
                         String imgUrl = res.getString("imageurl");
+                        String userEmail = res.getString("email");
 
 
 
@@ -275,7 +276,7 @@ public class profile extends Fragment {
 
                                 String myImgUrl = "https://api.multiavatar.com/"+ myName +".png";
                                 nameTextView.setText(myName);
-                                emailTextView.setText("abcd@gmail.com");
+                                emailTextView.setText(userEmail);
 
                                 Glide
                                     .with(getContext())
