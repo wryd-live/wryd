@@ -148,16 +148,24 @@ public class SignUp extends AppCompatActivity {
 
         loginButton.setOnClickListener(view -> {
 
+            if(selectedOrganizationId==-1)
+            {
+                Toast.makeText(getApplicationContext(),"Please Select Organization before Registering",Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+
             EditText personName = findViewById(R.id.personNameSignUp);
             EditText et = findViewById(R.id.emailInputSigup);
             EditText pt = findViewById(R.id.passwordInputSignup);
             EditText renterpt = findViewById(R.id.reenterPassSignUp);
 
             String inpEmail = et.getText().toString().trim();
-            String inpPass = pt.getText().toString().trim();
+            String inpPass = pt.getText().toString();
             String pName = personName.getText().toString().trim();
+            String inpRenterPass = renterpt.getText().toString();
 
-            if(inpEmail.equals("") || inpPass.equals("") || !renterpt.equals(pt) || pName.equals(""))
+            if(inpEmail.equals("") || inpPass.equals("") || !inpRenterPass.equals(inpPass) || pName.equals(""))
             {
                 Toast.makeText(getApplicationContext(),"Empty Email|Password| Passwords didn't match",Toast.LENGTH_SHORT).show();
                 return;
@@ -204,63 +212,26 @@ public class SignUp extends AppCompatActivity {
                         {
                             JSONObject myResponseJson = new JSONObject(responseBodyString);
 
-                            String userId = myResponseJson.getString("userid");
-                            String organizationId = myResponseJson.getString("orgid");
-                            String jwtToken = myResponseJson.getString("token");
-//
-//
-                            Log.d(TAG, "onCreate: "+userId);
-                            Log.d(TAG, "onCreate: "+organizationId);
-                            Log.d(TAG, "onCreate: "+jwtToken);
+                            runOnUiThread(()->{
 
+                                Toast.makeText(getApplicationContext(), "User Registered Successfully. Please Verify your mail", Toast.LENGTH_LONG).show();
 
-                            String organizationURL = keysConfig.wrydServerURL + "/api/organization/view/" + organizationId;
-                            Request orgRequest = new Request.Builder()
-                                    .url(organizationURL)
-                                    .build();
+                                Intent intent = new Intent(this,Login.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                                finish();
+                            });
 
-                            Response orgResponse = client.newCall(orgRequest).execute();
-
-                            String orgResponseString = orgResponse.body().string();
-                            Log.d(TAG, "orgResponse: "+orgResponseString);
-                            if(response.code()==200)
-                            {
-                                JSONObject orgResponseJson = new JSONObject(orgResponseString);
-
-                                String orgUsername = orgResponseJson.getString("username");
-                                String orgName = orgResponseJson.getString("name");
-                                String orgDomain = orgResponseJson.getString("domain");
-
-
-
-                                SharedPreferences.Editor editor = shredpreff.edit();
-                                editor.putString("userid", userId);
-                                editor.putString("orgid",organizationId);
-                                editor.putString("orgUsername",orgUsername);
-                                editor.putString("orgName",orgName);
-                                editor.putString("orgDomain",orgDomain);
-                                editor.putString("token",jwtToken);
-                                editor.apply();
-
-                                runOnUiThread(()->{
-
-//                                    Intent intent = new Intent(Login.this,MainActivity.class);
-//                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                                    finish();
-//                                    startActivity(intent);
-//                                    Toast.makeText(getApplicationContext(),"Login Success",Toast.LENGTH_SHORT).show();
-
-                                });
-                            }
-                            else
-                            {
-                                runOnUiThread(() -> {
-                                    Toast.makeText(getApplicationContext(), "Invalid Email/Password/Org", Toast.LENGTH_SHORT).show();
-                                });
-                            }
                         }
                         else
                         {
+                            JSONObject myResponseJson = new JSONObject(responseBodyString);
+
+                            String errCode = myResponseJson.getString("code");
+                            String errMsg = myResponseJson.getString("msg");
+
+                            System.out.println(errCode+ " -> "+ errMsg);
+
                             runOnUiThread(() -> {
                                 Toast.makeText(getApplicationContext(), "Invalid Email/Password", Toast.LENGTH_SHORT).show();
                             });
@@ -270,7 +241,7 @@ public class SignUp extends AppCompatActivity {
                         e.printStackTrace();
 
                         runOnUiThread(() -> {
-                            Toast.makeText(this, "Something Went Wrong!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "Something Went Wrong! Try Again", Toast.LENGTH_SHORT).show();
                         });
                     }
 
