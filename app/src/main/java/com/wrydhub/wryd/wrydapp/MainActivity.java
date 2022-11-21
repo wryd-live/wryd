@@ -126,6 +126,17 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
 
 
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 9876) {
+            String packageName = getPackageName();
+            PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
+            if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+                finishAndRemoveTask();
+            }
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -200,7 +211,8 @@ public class MainActivity extends AppCompatActivity {
             if (!pm.isIgnoringBatteryOptimizations(packageName)) {
                 intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
                 intent.setData(Uri.parse("package:" + packageName));
-                startActivity(intent);
+                startActivityForResult(intent,9876);
+//                startActivity(intent);
             }
         }
 
