@@ -1,17 +1,24 @@
 package com.wrydhub.wryd.wrydapp.ui;
 //package com.example.bottomsheetlayout;
 //
+import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -41,6 +48,11 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.wrydhub.wryd.wrydapp.MainActivity;
 import com.wrydhub.wryd.wrydapp.R;
 import com.wrydhub.wryd.wrydapp.utils.keysConfig;
@@ -48,6 +60,7 @@ import com.wrydhub.wryd.wrydapp.utils.keysConfig;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -86,6 +99,12 @@ public class profile extends Fragment {
     ImageView profileImageView;
     TextView nameTextView;
     TextView emailTextView;
+
+
+    String picturePath = "";
+
+    FirebaseStorage firebaseStorage;
+    StorageReference storageReference;
 
 
 
@@ -137,6 +156,8 @@ public class profile extends Fragment {
         emailTextView = root.findViewById(R.id.emailTextView);
 
 
+        firebaseStorage = FirebaseStorage.getInstance();
+        storageReference = firebaseStorage.getReference();
 
 
         CircleImageView chngImgBtn = root.findViewById(R.id.change_image_button);
@@ -157,10 +178,87 @@ public class profile extends Fragment {
 
 
 
+        Button selectImageButton = root.findViewById(R.id.button_select);
+        Button uploadImageButton = root.findViewById(R.id.button_upload);
+
+        uploadImageButton.setOnClickListener(view -> {
+            uploadFromFile();
+        });
+
+
+        selectImageButton.setOnClickListener(view -> {
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(intent,100);
+        });
+
+
         getUserViewDetails();
 
         return root;
     }
+
+
+    public void uploadFromFile()
+    {
+        Uri fileUri = Uri.fromFile(new File(picturePath));
+        StorageReference imageRef3 = storageReference.child("images/"+fileUri.getLastPathSegment());
+
+        UploadTask uploadTask2 = imageRef3.putFile(fileUri);
+
+        uploadTask2.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getContext(), "Error uploading image.", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Toast.makeText(getContext(), "Image uploaded.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==100)
+        {
+            if(resultCode==RESULT_OK && data!=null)
+            {
+                Uri selectedImage = data.getData();
+                String [] filePathCols = {MediaStore.Images.Media.DATA};
+                if(selectedImage!=null)
+                {
+                    Cursor cursor = getContext().getContentResolver().query(selectedImage,filePathCols,null,null,null);
+                    if(cursor!=null)
+                    {
+                        cursor.moveToFirst();
+                        int colIndex = cursor.getColumnIndex(filePathCols[0]);
+                        picturePath = cursor.getString(colIndex);
+                        profileImageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+                        cursor.close();
+                    }
+                }
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     private void showDialog() {
 
