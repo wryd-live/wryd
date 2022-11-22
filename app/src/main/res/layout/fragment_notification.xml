@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,27 +8,72 @@
 <!--    android:background="@color/purple_200"-->
 
     <!-- TODO: Update blank fragment layout -->
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/shimmer_view_container_notification"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        >
-        <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:visibility="invisible"
+            android:layout_width="324dp"
+            android:layout_height="239dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/no_notification"
+            app:layout_constraintBottom_toBottomOf="@+id/shimmer_view_container_notification"
+            app:layout_constraintEnd_toEndOf="@+id/shimmer_view_container_notification"
+            app:layout_constraintStart_toStartOf="@+id/shimmer_view_container_notification"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:visibility="invisible"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
-            <include layout="@layout/shimmer_list_item"/>
-            <include layout="@layout/shimmer_list_item"/>
-            <include layout="@layout/shimmer_list_item"/>
-            <include layout="@layout/shimmer_list_item"/>
-            <include layout="@layout/shimmer_list_item"/>
-            <include layout="@layout/shimmer_list_item"/>
+            android:layout_height="102dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:text="You Don't have any Notifications"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/imageView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/shimmer_view_container_notification" />
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_view_container_notification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <include layout="@layout/shimmer_list_item" />
+
+                <include layout="@layout/shimmer_list_item" />
+
+                <include layout="@layout/shimmer_list_item" />
+
+                <include layout="@layout/shimmer_list_item" />
+
+                <include layout="@layout/shimmer_list_item" />
+
+                <include layout="@layout/shimmer_list_item" />
 
 
-        </LinearLayout>
+            </LinearLayout>
 
-    </com.facebook.shimmer.ShimmerFrameLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <ListView
