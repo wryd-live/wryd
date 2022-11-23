@@ -7,38 +7,15 @@
     tools:context=".Login">
 
 
-    <Button
-        android:id="@+id/selectOrganizationButtonLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="28dp"
-        android:text="Select Organizatiion"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/organizationTextViewLogin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/organizationTextViewLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="80dp"
-        android:text="No Organization Selected"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/personNameSignUp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="wryd"
         android:textColor="#8102b7"
         android:textSize="75sp"
         android:textStyle="bold"
-        android:text="wryd"
-        app:layout_constraintBottom_toTopOf="@+id/selectOrganizationButtonLogin"
+        app:layout_constraintBottom_toTopOf="@+id/personNameSignUp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
