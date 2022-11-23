@@ -57,6 +57,7 @@ import com.wrydhub.wryd.wrydapp.ui.home;
 import com.wrydhub.wryd.wrydapp.ui.notification;
 import com.wrydhub.wryd.wrydapp.ui.profile;
 import com.wrydhub.wryd.wrydapp.ui.search;
+import com.wrydhub.wryd.wrydapp.utils.keysConfig;
 import com.wrydhub.wryd.wrydapp.utils.lastSeen;
 
 
@@ -81,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
     private String[] autocompleteLocations = new String[] {"bedroom","living room","kitchen","bathroom", "office"};
 
     String familyName = "iiitdharwad";
-    String serverAddress = "https://wryd.live";
+    String serverAddress = keysConfig.wrydLocationServerURL;
     String deviceName  = "note8pro";
     String locationName = "";
 

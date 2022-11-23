@@ -10,6 +10,8 @@ import android.os.SystemClock;
 import androidx.core.app.NotificationCompat;
 import android.util.Log;
 
+import com.wrydhub.wryd.wrydapp.utils.keysConfig;
+
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONObject;
@@ -37,7 +39,7 @@ public class BootBroadcastReceiver extends BroadcastReceiver {
     private String[] autocompleteLocations = new String[] {"bedroom","living room","kitchen","bathroom", "office"};
 
     String familyName = "iiitdharwad";
-    String serverAddress = "https://wryd.live";
+    String serverAddress = keysConfig.wrydLocationServerURL;
     String deviceName  = "note8pro";
     String locationName = "";
 
