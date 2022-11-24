@@ -217,6 +217,12 @@ public class profile extends Fragment {
                 String uploadedImageURL = taskSnapshot.getStorage().getDownloadUrl().toString();
 
                 Log.d(TAG, "onSuccess: "+ uploadedImageURL);
+                imageRef3.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Log.d(TAG, "onSuccess: uri= "+ uri.toString());
+                    }
+                });
 
                 Toast.makeText(getContext(), "Image uploaded.", Toast.LENGTH_SHORT).show();
             }
