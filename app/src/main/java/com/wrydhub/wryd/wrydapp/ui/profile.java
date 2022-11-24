@@ -267,6 +267,7 @@ public class profile extends Fragment {
 
                         if(!Objects.equals(picturePath, ""))
                         {
+                            showLoading();
                             uploadFromFile();
                         }
                         else
