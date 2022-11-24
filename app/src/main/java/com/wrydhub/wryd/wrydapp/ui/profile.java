@@ -13,10 +13,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -62,7 +60,6 @@ import com.wrydhub.wryd.wrydapp.utils.keysConfig;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
@@ -203,18 +200,10 @@ public class profile extends Fragment {
 
     public void uploadFromFile()
     {
-                profileImageView.setDrawingCacheEnabled(true);
-        profileImageView.buildDrawingCache();
-        Bitmap bitmap = ((BitmapDrawable) profileImageView.getDrawable()).getBitmap();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 0, baos);
-        byte[] data = baos.toByteArray();
-
-        UploadTask uploadTask = storageReference.putBytes(data);
         Uri fileUri = Uri.fromFile(new File(picturePath));
         StorageReference imageRef3 = storageReference.child("images/"+fileUri.getLastPathSegment());
 
-        UploadTask uploadTask2 = imageRef3.putBytes(data);
+        UploadTask uploadTask2 = imageRef3.putFile(fileUri);
 
         uploadTask2.addOnFailureListener(new OnFailureListener() {
             @Override
@@ -232,33 +221,6 @@ public class profile extends Fragment {
                 Toast.makeText(getContext(), "Image uploaded.", Toast.LENGTH_SHORT).show();
             }
         });
-        // Get the data from an ImageView as bytes
-//        profileImageView.setDrawingCacheEnabled(true);
-//        profileImageView.buildDrawingCache();
-//        Bitmap bitmap = ((BitmapDrawable) profileImageView.getDrawable()).getBitmap();
-//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//        bitmap.compress(Bitmap.CompressFormat.JPEG, 0, baos);
-//        byte[] data = baos.toByteArray();
-//
-//        UploadTask uploadTask = storageReference.putBytes(data);
-//        uploadTask.addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception exception) {
-//                // Handle unsuccessful uploads
-//                Toast.makeText(getContext(), "Error uploading image.", Toast.LENGTH_SHORT).show();
-//            }
-//        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//            @Override
-//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-//                // ...
-//                String uploadedImageURL = taskSnapshot.getStorage().getDownloadUrl().toString();
-//
-//                Log.d(TAG, "onSuccess: "+ uploadedImageURL);
-//
-//                Toast.makeText(getContext(), "Image uploaded.", Toast.LENGTH_SHORT).show();
-//            }
-//        });
     }
 
 
