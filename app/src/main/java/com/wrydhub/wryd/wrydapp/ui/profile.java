@@ -181,18 +181,18 @@ public class profile extends Fragment {
 
 
 
-        Button selectImageButton = root.findViewById(R.id.button_select);
-        Button uploadImageButton = root.findViewById(R.id.button_upload);
-
-        uploadImageButton.setOnClickListener(view -> {
-            uploadFromFile();
-        });
-
-
-        selectImageButton.setOnClickListener(view -> {
-            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(intent,100);
-        });
+//        Button selectImageButton = root.findViewById(R.id.button_select);
+//        Button uploadImageButton = root.findViewById(R.id.button_upload);
+//
+//        uploadImageButton.setOnClickListener(view -> {
+//            uploadFromFile();
+//        });
+//
+//
+//        selectImageButton.setOnClickListener(view -> {
+//            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//            startActivityForResult(intent,100);
+//        });
 
 
         getUserViewDetails();

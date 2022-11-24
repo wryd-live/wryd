@@ -165,26 +165,6 @@
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
-                    <Button
-                        android:id="@+id/button_select"
-                        android:layout_width="200dp"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center_horizontal"
-                        android:background="@color/colorPrimary"
-                        android:textColor="#ffffff"
-                        android:textSize="18sp"
-                        android:layout_marginTop="30dp"
-                        android:text="Select Image" />
-                    <Button
-                        android:id="@+id/button_upload"
-                        android:layout_width="200dp"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center_horizontal"
-                        android:background="@color/colorPrimary"
-                        android:textColor="#ffffff"
-                        android:textSize="18sp"
-                        android:layout_marginTop="30dp"
-                        android:text="Upload Image" />
 
                 </LinearLayout>
 
