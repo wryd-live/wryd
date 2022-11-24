@@ -214,9 +214,6 @@ public class profile extends Fragment {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                String uploadedImageURL = taskSnapshot.getStorage().getDownloadUrl().toString();
-
-                Log.d(TAG, "onSuccess: "+ uploadedImageURL);
                 imageRef3.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
