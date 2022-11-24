@@ -66,8 +66,11 @@ import java.util.Objects;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.Headers;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -209,6 +212,7 @@ public class profile extends Fragment {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(getContext(), "Error uploading image.", Toast.LENGTH_SHORT).show();
+                stopLoading();
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -218,10 +222,21 @@ public class profile extends Fragment {
                     @Override
                     public void onSuccess(Uri uri) {
                         Log.d(TAG, "onSuccess: uri= "+ uri.toString());
+
+                        stopLoading();
+                        uploadPhotoAPI(uri.toString());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        e.printStackTrace();
+                        Toast.makeText(getContext(), "Failed to Get Image URL.", Toast.LENGTH_SHORT).show();
+                        stopLoading();
+
                     }
                 });
 
-                Toast.makeText(getContext(), "Image uploaded.", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -249,6 +264,16 @@ public class profile extends Fragment {
                         picturePath = cursor.getString(colIndex);
                         profileImageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
                         cursor.close();
+
+                        if(!Objects.equals(picturePath, ""))
+                        {
+                            uploadFromFile();
+                        }
+                        else
+                        {
+                            //Toast
+                            Toast.makeText(getContext(),"Unable to Upload Image",Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             }
@@ -292,7 +317,10 @@ public class profile extends Fragment {
             public void onClick(View v) {
 
                 dialog.dismiss();
-                Toast.makeText(getContext(),"Upload is Clicked",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(),"Upload is Clicked",Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent,100);
 
             }
         });
@@ -411,4 +439,71 @@ public class profile extends Fragment {
     }
 
 
+
+    void uploadPhotoAPI(String newImageURL)
+    {
+        showLoading();
+
+        new Thread(() -> {
+            try {
+
+                final MediaType JSON
+                        = MediaType.parse("application/json; charset=utf-8");
+
+                final OkHttpClient client = new OkHttpClient();
+
+                JSONObject myPostDat = new JSONObject();
+                myPostDat.put("imageurl", newImageURL);
+
+                String jsonPost = myPostDat.toString();
+
+                RequestBody body = RequestBody.create(JSON,jsonPost);
+
+                String wryd_url = keysConfig.wrydServerURL + "/api/user/dp";
+                Request request = new Request.Builder()
+                        .url(wryd_url)
+                        .addHeader("Authorization","Bearer "+savedUserToken)
+                        .post(body)
+                        .build();
+
+                try (Response response = client.newCall(request).execute()) {
+                    if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+
+                    Log.d(TAG, "uploadPhotoAPI: "+response.body().string());
+                    Log.d(TAG, "uploadPhotoAPI: Image Upload Failed");
+
+
+                    getActivity().runOnUiThread(()-> {
+
+                        Toast.makeText(getContext(), "Profile Image Changed Successfully.", Toast.LENGTH_SHORT).show();
+
+                    });
+
+                }
+
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+                Log.d(TAG, "uploadPhotoAPI: Image Upload Failed");
+
+                getActivity().runOnUiThread(() -> {
+
+                    Toast.makeText(getContext(), "Image API Upload Failed.", Toast.LENGTH_SHORT).show();
+                });
+
+            }
+
+
+            getActivity().runOnUiThread(() -> {
+
+                stopLoading();
+                getUserViewDetails();
+
+            });
+
+        }).start();
+
+    }
 }
