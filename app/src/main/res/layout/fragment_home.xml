@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,32 +9,73 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/shimmer_view_container_home"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        >
-        <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_view_container_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/listview_home"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/listview_home">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <include layout="@layout/shimmer_list_item" />
+
+                <include layout="@layout/shimmer_list_item" />
+
+                <include layout="@layout/shimmer_list_item" />
+
+                <include layout="@layout/shimmer_list_item" />
+
+                <include layout="@layout/shimmer_list_item" />
+
+                <include layout="@layout/shimmer_list_item" />
+
+
+            </LinearLayout>
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <ListView
+            android:id="@+id/listview_home"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
-            <include layout="@layout/shimmer_list_item"/>
-            <include layout="@layout/shimmer_list_item"/>
-            <include layout="@layout/shimmer_list_item"/>
-            <include layout="@layout/shimmer_list_item"/>
-            <include layout="@layout/shimmer_list_item"/>
-            <include layout="@layout/shimmer_list_item"/>
+            tools:listitem="@layout/list_item_home" />
 
+        <ImageView
+            android:id="@+id/imageView9"
+            android:layout_width="246dp"
+            android:layout_height="204dp"
+            android:src="@drawable/no_friends_locations"
+android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/shimmer_view_container_home"
+            app:layout_constraintEnd_toEndOf="@+id/shimmer_view_container_home"
+            app:layout_constraintStart_toStartOf="@+id/shimmer_view_container_home"
+            app:layout_constraintTop_toTopOf="@+id/shimmer_view_container_home" />
 
-        </LinearLayout>
+        <TextView
+            android:visibility="invisible"
+            android:id="@+id/textView4"
+            android:layout_width="305dp"
+            android:layout_height="71dp"
+            android:text="You Don't have any Friends"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/imageView9"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/shimmer_view_container_home" />
 
-    </com.facebook.shimmer.ShimmerFrameLayout>
-
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/listview_home"
-        tools:listitem="@layout/list_item_home"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
