@@ -30,23 +30,24 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/top_background" />
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profileImageView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     app:layout_constraintBottom_toBottomOf="@+id/imageView9"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/imageView9"
-                    app:srcCompat="@drawable/profile" />
+                    android:src="@drawable/facebook_avatar" />
 
                 <TextView
                     android:id="@+id/userNameTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Lion Fischer "
+                    android:text=" "
                     android:textSize="25dp"
                     android:textStyle="bold"
+                    android:layout_marginTop="15dp"
                     app:layout_constraintEnd_toEndOf="@+id/profileImageView"
                     app:layout_constraintStart_toStartOf="@+id/profileImageView"
                     app:layout_constraintTop_toBottomOf="@+id/profileImageView" />
@@ -55,8 +56,9 @@
                     android:id="@+id/emailTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="lionfischer@gmail.com"
+                    android:text=" "
                     android:textSize="20dp"
+                    android:layout_marginTop="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/userNameTextView" />
@@ -66,16 +68,16 @@
                     android:textStyle="bold|italic"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="36dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginStart="30dp"
                     android:layout_marginEnd="30dp"
-                    android:text="Indian Institute of Information Technology Dharwad"
+                    android:text=" "
                     android:textSize="20dp"
                     android:textAlignment="center"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.497"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/userNameTextView" />
+                    app:layout_constraintTop_toBottomOf="@+id/emailTextView" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

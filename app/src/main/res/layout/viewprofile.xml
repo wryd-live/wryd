@@ -30,15 +30,15 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/top_background" />
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profileImageView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     app:layout_constraintBottom_toBottomOf="@+id/imageView9"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/imageView9"
-                    app:srcCompat="@drawable/facebook_avatar" />
+                    android:src="@drawable/facebook_avatar" />
 
                 <TextView
                     android:id="@+id/userNameTextView"
@@ -47,6 +47,7 @@
                     android:text=" "
                     android:textSize="25dp"
                     android:textStyle="bold"
+                    android:layout_marginTop="15dp"
                     app:layout_constraintEnd_toEndOf="@+id/profileImageView"
                     app:layout_constraintStart_toStartOf="@+id/profileImageView"
                     app:layout_constraintTop_toBottomOf="@+id/profileImageView" />
@@ -57,6 +58,7 @@
                     android:layout_height="wrap_content"
                     android:text=" "
                     android:textSize="20dp"
+                    android:layout_marginTop="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/userNameTextView" />
@@ -67,6 +69,7 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginEnd="24dp"
                     android:orientation="vertical"
+                    android:layout_marginTop="15dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
