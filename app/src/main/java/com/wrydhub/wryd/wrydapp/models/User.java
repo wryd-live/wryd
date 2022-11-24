@@ -1,5 +1,8 @@
 package com.wrydhub.wryd.wrydapp.models;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 public class User {
 
     public String name, lastMessage, lastMsgTime, phoneNo, country;
@@ -10,7 +13,7 @@ public class User {
     public int personId;
     public int notificationId;
 
-    public User(String name, String lastMessage, String lastMsgTime, long lastSeenTime, String phoneNo, String country, int imageId) {
+    public User(String name, String lastMessage, String lastMsgTime, long lastSeenTime, String phoneNo, String country, int imageId) throws UnsupportedEncodingException {
         this.name = name;
         this.lastMessage = lastMessage;
         this.lastMsgTime = lastMsgTime;
@@ -18,12 +21,14 @@ public class User {
         this.country = country;
         this.imageId = imageId;
         this.lastSeenTime = lastSeenTime;
-        this.imageUrl = "https://api.multiavatar.com/"+ name +".png";
+
+        String tmpUrl = "https://api.multiavatar.com/"+ name +".png";
+        this.imageUrl =  tmpUrl.replaceAll(" ", "%20");
     }
 
     public void setImageUrl(String newImageUrl)
     {
-        this.imageUrl = newImageUrl;
+        this.imageUrl = newImageUrl.replaceAll(" ", "%20");
     }
 
     public void setNotificationType(String pnotification)

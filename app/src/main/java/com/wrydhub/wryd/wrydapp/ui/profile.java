@@ -62,6 +62,8 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Objects;
 
 import okhttp3.Call;
@@ -396,6 +398,7 @@ public class profile extends Fragment {
                         String userEmail = res.getString("email");
 
 
+                        imgUrl = imgUrl.replaceAll(" ", "%20");
 
 
 //                        String person_email = res.getString("person_email");
@@ -404,6 +407,7 @@ public class profile extends Fragment {
 //                        String requestType = res.getString("request-type");
 
 
+                        String finalImgUrl = imgUrl;
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -411,6 +415,12 @@ public class profile extends Fragment {
 //                                    stopShimmer();
 
                                 String myImgUrl = "https://api.multiavatar.com/"+ myName +".png";
+                                myImgUrl = myImgUrl.replaceAll(" ", "%20");
+
+                                if(!finalImgUrl.equals("null"))
+                                {
+                                    myImgUrl = finalImgUrl;
+                                }
                                 nameTextView.setText(myName);
                                 emailTextView.setText(userEmail);
 

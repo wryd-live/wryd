@@ -34,6 +34,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.time.Instant;
 import java.util.ArrayList;
 
@@ -293,6 +294,7 @@ public class notification extends Fragment {
                         {
                             JSONObject dev = deviceData.getJSONObject(i);
                             String devName = dev.getString("person_name");
+                            String devImgUrl = dev.getString("imageurl");
                             int devId = Integer.parseInt(dev.getString("personid"));
                             int notificationId = Integer.parseInt(dev.getString("notificationid"));
                             String sqlTime = dev.getString("time");
@@ -329,7 +331,14 @@ public class notification extends Fragment {
                                     "india",
                                     R.drawable.facebook_avatar);
 
-                            user.setImageUrl("https://api.multiavatar.com/"+ devName +".png");
+                            String avatarUrl = "https://api.multiavatar.com/"+ devName +".png";
+                            avatarUrl = avatarUrl.replaceAll(" ", "%20");
+
+                            user.setImageUrl(avatarUrl);
+                            if(!devImgUrl.equals("null"))
+                            {
+                                user.setImageUrl(devImgUrl);
+                            }
                             user.setNotificationType(notificationType);
                             user.setPersonId(devId);
                             user.setNotificationId(notificationId);

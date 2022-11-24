@@ -298,7 +298,10 @@ public class search extends Fragment {
                                     "india",
                                     R.drawable.facebook_avatar);
 
-                            user.setImageUrl("https://api.multiavatar.com/"+ devName +".png");
+                            if(!imgUrl.equals("null"))
+                            {
+                                user.setImageUrl(imgUrl);
+                            }
                             user.setPersonId(devId);
                             userArrayList.add(user);
                         }

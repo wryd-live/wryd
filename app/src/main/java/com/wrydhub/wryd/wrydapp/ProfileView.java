@@ -24,6 +24,7 @@ import com.wrydhub.wryd.wrydapp.utils.keysConfig;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.Objects;
 
 import okhttp3.Call;
@@ -207,6 +208,18 @@ public class ProfileView extends AppCompatActivity {
                         String requestType = res.getString("request-type");
 
 
+                        Log.d(TAG, "profileImageUrl: "+imgUrl);
+
+                        String myImgUrl = imgUrl.replaceAll(" ", "%20");
+
+                        if(imgUrl.equals("null"))
+                        {
+                            Log.d(TAG, "profileImageUrl: "+imgUrl);
+                            String tmp_myImgUrl = "https://api.multiavatar.com/"+ pName +".png";
+                            myImgUrl = tmp_myImgUrl.replaceAll(" ", "%20");
+                        }
+
+                        String finalMyImgUrl = myImgUrl;
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -219,10 +232,9 @@ public class ProfileView extends AppCompatActivity {
                                 emailTxtView.setText(person_email);
                                 orgTxtView.setText("Organization");
 
-                                String myImgUrl = "https://api.multiavatar.com/"+ pName +".png";
                                 Glide
                                     .with(getApplicationContext())
-                                    .load(myImgUrl)
+                                    .load(finalMyImgUrl)
                                     .into(profileImgView);
 
                                 if(isFriend)

@@ -23,6 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -175,13 +176,21 @@ public class SearchActivity extends AppCompatActivity {
                         String person_name = myjs.getString("name");
                         String person_email = myjs.getString("email");
 
+                        imgUrl = imgUrl.replaceAll(" ", "%20");
 
                         ModelClass modelClass = new ModelClass();
                         modelClass.setFruitName(person_name);
                         modelClass.setFruitNum(person_email);
                         modelClass.setImg(R.drawable.camera_icon);
                         modelClass.setPersonId(Integer.parseInt(pid));
-                        modelClass.setImgUrl("https://api.multiavatar.com/"+ person_name +".png");
+                        modelClass.setImgUrl(imgUrl);
+                        if(imgUrl.equals("null"))
+                        {
+                            String avtrUrl = "https://api.multiavatar.com/"+ person_name +".png";
+                            String tmp_myImgUrl = avtrUrl.replaceAll(" ", "%20");
+                            modelClass.setImgUrl(tmp_myImgUrl);
+
+                        }
 
                         fetchedUsers.add(modelClass);
                     }
