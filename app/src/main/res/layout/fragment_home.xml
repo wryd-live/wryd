@@ -51,7 +51,7 @@
             tools:listitem="@layout/list_item_home" />
 
         <ImageView
-            android:id="@+id/imageView9"
+            android:id="@+id/locationsNotFound"
             android:layout_width="246dp"
             android:layout_height="204dp"
             android:src="@drawable/no_friends_locations"
@@ -63,7 +63,7 @@ android:visibility="invisible"
 
         <TextView
             android:visibility="invisible"
-            android:id="@+id/textView4"
+            android:id="@+id/locationsNotFoundText"
             android:layout_width="305dp"
             android:layout_height="71dp"
             android:text="You Don't have any Friends"
@@ -71,7 +71,7 @@ android:visibility="invisible"
             android:textColor="@color/black"
             android:textSize="25dp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/imageView9"
+            app:layout_constraintBottom_toTopOf="@+id/locationsNotFound"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/shimmer_view_container_home" />

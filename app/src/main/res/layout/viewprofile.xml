@@ -38,13 +38,13 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/imageView9"
-                    app:srcCompat="@drawable/profile" />
+                    app:srcCompat="@drawable/facebook_avatar" />
 
                 <TextView
                     android:id="@+id/userNameTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Lion Fischer "
+                    android:text=" "
                     android:textSize="25dp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="@+id/profileImageView"
@@ -55,7 +55,7 @@
                     android:id="@+id/emailTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="lionfischer@gmail.com"
+                    android:text=" "
                     android:textSize="20dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

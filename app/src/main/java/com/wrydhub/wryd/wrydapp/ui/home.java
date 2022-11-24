@@ -14,7 +14,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -63,6 +65,10 @@ public class home extends Fragment {
     String savedUserToken;
 
     ShimmerFrameLayout shimmer;
+
+
+    ImageView notFoundImg;
+    TextView notFoundText;
 
 
     public home() {
@@ -148,6 +154,8 @@ public class home extends Fragment {
 //        progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
 //        progress.show();
 
+        notFoundImg = root.findViewById(R.id.locationsNotFound);
+        notFoundText = root.findViewById(R.id.locationsNotFoundText);
         shimmer = root.findViewById(R.id.shimmer_view_container_home);
 
         shimmer.startShimmer();
@@ -236,7 +244,13 @@ public class home extends Fragment {
 //                    progress.dismiss();
                         stopShimmer();
 
-                        Toast.makeText(getContext(), "Unable To Fetch Data", Toast.LENGTH_SHORT).show();
+                        userArrayList.clear();
+                        listAdapter.notifyDataSetChanged();
+
+                        notFoundImg.setVisibility(View.VISIBLE);
+                        notFoundText.setVisibility(View.VISIBLE);
+
+//                        Toast.makeText(getContext(), "Unable To Fetch Data", Toast.LENGTH_SHORT).show();
                     });
                 }
             }
@@ -310,6 +324,10 @@ public class home extends Fragment {
 //                                progress.dismiss();
                                 stopShimmer();
 
+                                notFoundImg.setVisibility(View.INVISIBLE);
+                                notFoundText.setVisibility(View.INVISIBLE);
+
+
                             }
                         });
 
@@ -321,6 +339,14 @@ public class home extends Fragment {
                             getActivity().runOnUiThread(() -> {
 //                            progress.dismiss();
                                 stopShimmer();
+
+
+                                userArrayList.clear();
+                                listAdapter.notifyDataSetChanged();
+
+                                notFoundImg.setVisibility(View.VISIBLE);
+                                notFoundText.setVisibility(View.VISIBLE);
+
 
                                 Toast.makeText(getContext(), "Error Parsing Data", Toast.LENGTH_SHORT).show();
                             });
@@ -335,11 +361,13 @@ public class home extends Fragment {
 //                        progress.dismiss();
                             stopShimmer();
 
-                            try {
-                                Toast.makeText(getContext(), "Error Fetching Data" + response.body().string(), Toast.LENGTH_SHORT).show();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+                            userArrayList.clear();
+                            listAdapter.notifyDataSetChanged();
+
+                            notFoundImg.setVisibility(View.VISIBLE);
+                            notFoundText.setVisibility(View.VISIBLE);
+
+//                                Toast.makeText(getContext(), "Error Fetching Data" + response.body().string(), Toast.LENGTH_SHORT).show();
                         });
                     }
                 }

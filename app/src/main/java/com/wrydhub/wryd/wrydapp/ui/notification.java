@@ -16,7 +16,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -69,6 +71,10 @@ public class notification extends Fragment {
     NotificationListAdapter listAdapter;
     ProgressDialog progress;
     ShimmerFrameLayout shimmer;
+
+
+    ImageView notificationNotFoundImgView;
+    TextView notificationNotFoundTxtView;
 
 
     public notification() {
@@ -173,6 +179,10 @@ public class notification extends Fragment {
         userArrayList.clear();
         listAdapter = new NotificationListAdapter(root.getContext(),userArrayList);
 
+        notificationNotFoundImgView = root.findViewById(R.id.notificationsNotFound);
+        notificationNotFoundTxtView = root.findViewById(R.id.notificationsNotFoundText);
+
+
         shimmer = root.findViewById(R.id.shimmer_view_container_notification);
 
         shimmer.startShimmer();
@@ -273,7 +283,7 @@ public class notification extends Fragment {
 //                    progress.dismiss();
                     stopShimmer();
 
-                    Toast.makeText(getContext(), "Unable To Fetch Data", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "Unable To Fetch Data", Toast.LENGTH_SHORT).show();
                 });
             }
 
@@ -379,7 +389,7 @@ public class notification extends Fragment {
 //                            progress.dismiss();
                             stopShimmer();
 
-                            Toast.makeText(getContext(), "Error Parsing Data", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getContext(), "Error Parsing Data", Toast.LENGTH_SHORT).show();
                         });
                     }
 
@@ -389,11 +399,7 @@ public class notification extends Fragment {
                     getActivity().runOnUiThread(() -> {
 //                        progress.dismiss();
                         stopShimmer();
-                        try {
-                            Toast.makeText(getContext(), "Error Fetching Data" + response.body().string(), Toast.LENGTH_SHORT).show();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        //                            Toast.makeText(getContext(), "Error Fetching Data" + response.body().string(), Toast.LENGTH_SHORT).show();
                     });
                 }
             }
@@ -446,26 +452,6 @@ public class notification extends Fragment {
                             return;
                         }
 
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-//                                progress.dismiss();
-//                                stopShimmer();
-
-                            }
-                        });
-                }
-                else
-                {
-                    getActivity().runOnUiThread(() -> {
-//                        progress.dismiss();
-//                        stopShimmer();
-                        try {
-                            Toast.makeText(getContext(), "Error Dismissing Notification" + response.body().string(), Toast.LENGTH_SHORT).show();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    });
                 }
 
 
@@ -479,11 +465,20 @@ public class notification extends Fragment {
     {
         shimmer.hideShimmer();
         shimmer.setVisibility(View.INVISIBLE);
+
+        if(userArrayList.isEmpty())
+        {
+            notificationNotFoundImgView.setVisibility(View.VISIBLE);
+            notificationNotFoundTxtView.setVisibility(View.VISIBLE);
+        }
     }
 
 
     void startShimmer()
     {
+        notificationNotFoundImgView.setVisibility(View.INVISIBLE);
+        notificationNotFoundTxtView.setVisibility(View.INVISIBLE);
+
         shimmer.startShimmer();
         shimmer.setVisibility(View.VISIBLE);
     }

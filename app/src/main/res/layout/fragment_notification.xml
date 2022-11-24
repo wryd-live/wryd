@@ -13,7 +13,7 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/notificationsNotFound"
             android:visibility="invisible"
             android:layout_width="324dp"
             android:layout_height="239dp"
@@ -27,7 +27,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/notificationsNotFoundText"
             android:visibility="invisible"
             android:layout_width="match_parent"
             android:layout_height="102dp"
@@ -40,7 +40,7 @@
             android:textColor="@color/black"
             android:textSize="25dp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/imageView"
+            app:layout_constraintBottom_toTopOf="@+id/notificationsNotFound"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/shimmer_view_container_notification" />
 

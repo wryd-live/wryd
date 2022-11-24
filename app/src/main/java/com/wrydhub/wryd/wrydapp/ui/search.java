@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 //import android.widget.SearchView;
 import androidx.appcompat.widget.SearchView;
@@ -88,6 +89,9 @@ public class search extends Fragment {
     HomeListAdapter listAdapter;
 
     ProgressDialog progress;
+
+    ImageView friendsNotFoundImg;
+    TextView friendsNotFoundTxt;
 
 //    ListView myListView;
 //
@@ -183,6 +187,9 @@ public class search extends Fragment {
 //        }
 
 
+        friendsNotFoundImg = root.findViewById(R.id.friendsNotFoundImg);
+        friendsNotFoundTxt = root.findViewById(R.id.friendsNotFoundTxt);
+
         listAdapter = new HomeListAdapter(root.getContext(), userArrayList);
         ListView lv = (ListView) root.findViewById(R.id.listview_search);
 
@@ -246,7 +253,13 @@ public class search extends Fragment {
 
     public void getFriendsData()
     {
+        userArrayList.clear();
+        listAdapter.notifyDataSetChanged();
         progress.show();
+
+        friendsNotFoundImg.setVisibility(View.INVISIBLE);
+        friendsNotFoundTxt.setVisibility(View.INVISIBLE);
+
         OkHttpClient client = new OkHttpClient();
         String url = keysConfig.wrydServerURL + "/api/profile/friends" ;
         System.out.println("my url ===== "+url);
@@ -263,7 +276,11 @@ public class search extends Fragment {
                 getActivity().runOnUiThread(() -> {
                     progress.dismiss();
 //                    stopShimmer();
-                    Toast.makeText(getContext(), "Unable To Fetch Data", Toast.LENGTH_SHORT).show();
+
+                    friendsNotFoundImg.setVisibility(View.VISIBLE);
+                    friendsNotFoundTxt.setVisibility(View.VISIBLE);
+
+//                    Toast.makeText(getContext(), "Unable To Fetch Data", Toast.LENGTH_SHORT).show();
                 });
             }
 
@@ -323,7 +340,10 @@ public class search extends Fragment {
                             progress.dismiss();
 //                            stopShimmer();
 
-                            Toast.makeText(getContext(), "Error Parsing Data", Toast.LENGTH_SHORT).show();
+                            friendsNotFoundImg.setVisibility(View.VISIBLE);
+                            friendsNotFoundTxt.setVisibility(View.VISIBLE);
+
+//                            Toast.makeText(getContext(), "Error Parsing Data", Toast.LENGTH_SHORT).show();
                         });
                     }
 
@@ -333,7 +353,11 @@ public class search extends Fragment {
                     getActivity().runOnUiThread(() -> {
                         progress.dismiss();
 //                    stopShimmer();
-                        Toast.makeText(getContext(), "Unable To Fetch Data", Toast.LENGTH_SHORT).show();
+
+                        friendsNotFoundImg.setVisibility(View.VISIBLE);
+                        friendsNotFoundTxt.setVisibility(View.VISIBLE);
+
+//                        Toast.makeText(getContext(), "Unable To Fetch Data", Toast.LENGTH_SHORT).show();
                     });
                 }
             }
