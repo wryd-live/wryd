@@ -308,7 +308,8 @@ public class profile extends Fragment {
             public void onClick(View v) {
 
                 dialog.dismiss();
-                Toast.makeText(getContext(),"Remove is Clicked",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(),"Remove is Clicked",Toast.LENGTH_SHORT).show();
+                deletePhotoAPI();
 
             }
         });
@@ -492,6 +493,68 @@ public class profile extends Fragment {
                 getActivity().runOnUiThread(() -> {
 
                     Toast.makeText(getContext(), "Image API Upload Failed.", Toast.LENGTH_SHORT).show();
+                });
+
+            }
+
+
+            getActivity().runOnUiThread(() -> {
+
+                stopLoading();
+                getUserViewDetails();
+
+            });
+
+        }).start();
+
+    }
+
+
+    void deletePhotoAPI()
+    {
+        showLoading();
+
+        new Thread(() -> {
+            try {
+
+                final MediaType JSON
+                        = MediaType.parse("application/json; charset=utf-8");
+
+                final OkHttpClient client = new OkHttpClient();
+
+                String wryd_url = keysConfig.wrydServerURL + "/api/user/dp";
+
+                Request request = new Request.Builder()
+                        .url(wryd_url)
+                        .addHeader("Authorization","Bearer "+savedUserToken)
+                        .delete()
+                        .build();
+
+                try (Response response = client.newCall(request).execute()) {
+                    if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+
+                    Log.d(TAG, "uploadPhotoAPI: "+response.body().string());
+                    Log.d(TAG, "uploadPhotoAPI: Image Deletion Failed");
+
+
+                    getActivity().runOnUiThread(()-> {
+
+                        Toast.makeText(getContext(), "Image Removed Successfully.", Toast.LENGTH_SHORT).show();
+
+                    });
+
+                }
+
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+                Log.d(TAG, "uploadPhotoAPI: Image Deletion Failed");
+
+                getActivity().runOnUiThread(() -> {
+
+                    Toast.makeText(getContext(), "Image API Deletion Failed.", Toast.LENGTH_SHORT).show();
                 });
 
             }
