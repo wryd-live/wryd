@@ -2,11 +2,11 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 30
     defaultConfig {
         applicationId "com.wrydhub.wryd.wrydapp"
         minSdkVersion 23
-        targetSdkVersion 28
+        targetSdkVersion 30
         versionCode 6
         versionName "1.0.1"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
