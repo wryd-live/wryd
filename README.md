@@ -20,4 +20,19 @@ Overall, WRYD is a unique and innovative app that combines the benefits of socia
 
 
 
+Location Page            |  Friends Page                |   Profile Page
+:-------------------------:|:-------------------------:|:-------------------------:
+![Screenshot_20221125_103811](https://user-images.githubusercontent.com/22856752/226000675-0b6fbc9b-2c45-4c8a-ac84-f6188b2cebcb.png)  |  ![Screenshot_20221125_103915](https://user-images.githubusercontent.com/22856752/226001153-128f11c6-233a-442f-bab1-c5005e36f2f6.png) | ![Screenshot_20221125_103939](https://user-images.githubusercontent.com/22856752/226001085-26fce951-5362-4fa3-a18c-6565df31cc1a.png)
+
+
+
+
+
 To get started with this app, use Android Studio 3+ and "Import Project" after downloading the Git repository.
+
+
+
+```
+git clone https://github.com/wryd-live/wryd
+cd wryd
+```
